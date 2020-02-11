@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,7 +31,8 @@ public class UserControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders.post("/test/" + testName))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("name").value(testName));
+        .andExpect(jsonPath("name").value(testName))
+        .andDo(print());
   }
 
   @Test
