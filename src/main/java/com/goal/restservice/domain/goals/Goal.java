@@ -29,10 +29,15 @@ public class Goal extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-//  @ManyToOne
-//  @JoinColumn
-//  private Category category;
+  @ManyToOne
+  @JoinColumn
+  private Category category;
+
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  private User user;
 
   private String title;
   private String desc;
+  private LocalDateTime dueDate;
 }

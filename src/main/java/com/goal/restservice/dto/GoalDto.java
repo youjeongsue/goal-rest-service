@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class GoalDto {
 
   @NotBlank
@@ -25,9 +23,5 @@ public class GoalDto {
 
   private Long userId;
 
-  private Long categoryId;
-
-  public Goal toEntity() {
-    return Goal.builder().title(title).desc(desc).build();
-  }
+  private String category;
 }
