@@ -6,15 +6,15 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-//@NoArgsConstructor(access = AccessLevel.PROTECTED) // with this, instance will be generated only through builder pattern.
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // with this, instance will be generated only through builder pattern.
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
 
   @Id
@@ -27,21 +27,33 @@ public class User {
   @NotNull
   private String password;
 
-&   private String name;
+  @NotNull
+  private String userName;
 
-  @NotNull                    //  db에 쿼리 날리기 전 app level에서 error 발생
-  // @Column(nullable = false) :  이렇게 하면 db에 query를 날린 후에 error 발생
-  private boolean activated;
+  @NotNull
+  private String firstName;
+
+  @NotNull
+  private String lastName;
 
   @CreatedDate
   private LocalDate createdDate;
 
+  @Size(max = 256)
+  @Column(name = "image_url", length = 256)
+  private String imageUrl;
+
+  private String introduction;
+
   @Builder
-  public User(String email, String password, String name, boolean activated){
+  public User(String email, String password, String userName, String firstName, String lastName, String imageUrl, String introduction){
       this.email = email;
       this.password = password;
-      this.name = name;
-      this.activated = activated;
+      this.userName = userName;
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.imageUrl = imageUrl;
+      this.introduction = introduction;
   }
 
 }

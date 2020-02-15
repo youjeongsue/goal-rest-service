@@ -1,6 +1,7 @@
 package com.goal.restservice.service;
 
 import com.goal.restservice.domain.User;
+import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.repository.UserRepository;
 import com.goal.restservice.util.PasswordEncoding;
 import lombok.RequiredArgsConstructor;
@@ -23,23 +24,33 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User createUser(User userDTO){
+    public UserDTO createUser(UserDTO userDTO){
         String encodedPassword = passwordEncoding.encode(userDTO.getPassword());
 
-        User user = User.builder().
-                name(userDTO.getName())
+        User user = userRepository.save(User.builder()
                 .email(userDTO.getEmail())
                 .password(encodedPassword)
-                .activated(userDTO.isActivated())
-                .build();
+                .firstName(userDTO.getFirstName())
+                .lastName(userDTO.getLastName())
+                .userName(userDTO.getUserName())
+                .imageUrl(userDTO.getImageUrl())
+                .introduction(userDTO.getIntroduction())
+                .build());
 
-        return userRepository.save(user);
+        return UserDTO.builder()
+                .email(user.getEmail())
+                .userName(user.getUserName())
+                .firstName(user.getFirstName())
+                .lastName((user.getLastName()))
+                .introduction(user.getIntroduction())
+                .imageUrl(user.getImageUrl())
+                .build();
     }
 
     /**
      *
      * @param email
-     * @param password
+     * @param rawPassword
      * @return
      */
     @Override
@@ -51,6 +62,7 @@ public class UserServiceImpl implements UserService{
         if(ou.isPresent()){
             if( passwordEncoding.matches(rawPassword, ou.get().getPassword()))
                 return ou.get();
+
             else
                 //TODO
                 throw new Exception("password is not valid");      // password is not valid
@@ -62,25 +74,46 @@ public class UserServiceImpl implements UserService{
     }
 
 
-    @Override
-    public User getUserByEmail(String email){
-        Optional<User> optionalUser = userRepository.findOneByEmailIgnoreCase(email);
 
-        return optionalUser.orElse(null);
+    @Override
+    public UserDTO getUserByUserName(String userName){
+        Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(userName);
+
+        return optionalUser.map(user -> UserDTO.builder()
+                .id(null)
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .imageUrl(user.getImageUrl())
+                .introduction(user.getIntroduction())
+                .build()).orElse(null);
+
     }
 
 
     @Override
-    public User readUserById(Long id){
-        return userRepository.findById(id).orElse(null);
+    public UserDTO getUserById(Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        return optionalUser.map(user -> UserDTO.builder()
+                .id(null)
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .imageUrl(user.getImageUrl())
+                .introduction(user.getIntroduction())
+                .build()).orElse(null);
     }
+
 
     @Override
     public void updateUser(User user){
         String encodedPassword = passwordEncoding.encode(user.getPassword());
         System.out.println(user.getEmail()+" "+user.getId()+" "+encodedPassword);
 
-        userRepository.setUserById(user.getName(), encodedPassword, user.getId());
+        //userRepository.setUserById(user.getName(), encodedPassword, user.getId());
     }
 
     @Override
@@ -88,4 +121,8 @@ public class UserServiceImpl implements UserService{
         return userRepository.findOneByEmailIgnoreCase(email).isPresent();
     }
 
+    @Override
+    public boolean isUserNameAlreadyUsed(String userName){
+        return userRepository.findOneByUserNameIgnoreCase(userName).isPresent();
+    }
 }

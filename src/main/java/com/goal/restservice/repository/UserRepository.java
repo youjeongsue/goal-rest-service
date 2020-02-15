@@ -12,8 +12,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByEmailIgnoreCase(String email);
 
-    @Modifying
-    @Query("update User u set u.name = ?1, u.password = ?2 where u.id = ?3")
-    void setUserById(String name, String password, Long id);
+    Optional<User> findOneByUserNameIgnoreCase(String userName);
+
+//    @Modifying
+//    @Query("update User u set u.name = ?1, u.password = ?2 where u.id = ?3")
+//    void setUserById(String name, String password, Long id);
 
 }

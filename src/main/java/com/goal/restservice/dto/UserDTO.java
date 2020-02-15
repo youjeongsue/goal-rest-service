@@ -9,10 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class userDTO {
+public class UserDTO {
     private Long id;
 
     private String email;
+
+    private String password;
 
     private String userName;
 
@@ -25,7 +27,7 @@ public class userDTO {
     private String introduction;
 
     @Builder
-    public userDTO(Long id, String email, String userName, String firstName, String lastName, String imageUrl, String introduction) {
+    public UserDTO(Long id, String email, String userName, String firstName, String lastName, String imageUrl, String introduction) {
         this.id = id;
         this.email = email;
         this.userName = userName;
