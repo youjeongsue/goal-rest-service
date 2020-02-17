@@ -2,6 +2,7 @@ package com.goal.restservice.web.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goal.restservice.domain.User;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.nio.charset.Charset;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,7 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
 
 
-  public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+  public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
+      APPLICATION_JSON.getType(), APPLICATION_JSON.getSubtype(),
+      StandardCharsets.UTF_8);
 
   @Autowired
   private MockMvc mockMvc;
@@ -37,23 +41,24 @@ public class UserControllerTest {
   @Test
   public void 사용자를_생성한다() throws Exception {
 
-      //mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users")).andDo(print());
+    //mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users")).andDo(print());
+    // given
+    User user = User.builder()
+        .email("test@naver.com")
+        .userName("jsom")
+        .firstName("first")
+        .lastName("last")
+        .password("12345")
+//        .activated(false)
+        .build();
 
-      // given
-      User user = User.builder()
-              .email("test@naver.com")
-              .name("jsom")
-              .password("12345")
-              .activated(false)
-              .build();
+    // when
+    mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+        .contentType(APPLICATION_JSON_UTF8)
+        .content(objectMapper.writeValueAsString(user)))
+        .andDo(MockMvcResultHandlers.print());
 
-      // when
-      mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
-              .contentType(APPLICATION_JSON_UTF8)
-              .content(objectMapper.writeValueAsString(user)))
-              .andDo(MockMvcResultHandlers.print());
-
-      // then
+    // then
 
   }
 
@@ -62,30 +67,31 @@ public class UserControllerTest {
 
     // given
     User user = User.builder()
-            .email("test@naver.com")
-            .name("json")
-            .password("12345")
-            .activated(false)
-            .build();
+        .email("test@naver.com")
+        .userName("json")
+        .firstName("first")
+        .lastName("last")
+        .password("12345")
+//        .activated(false)
+        .build();
 
     mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
-            .contentType(APPLICATION_JSON_UTF8)
-            .content(objectMapper.writeValueAsString(user)));
-
+        .contentType(APPLICATION_JSON_UTF8)
+        .content(objectMapper.writeValueAsString(user)));
 
     // when : 중복된 이메일 존재
     User dup_user = User.builder()
-            .email("test@naver.com")
-            .name("json")
-            .password("12345")
-            .activated(false)
-            .build();
+        .email("test@naver.com")
+        .userName("json")
+        .password("12345")
+//        .activated(false)
+        .build();
 
     // then : 400 bad request
     mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
-            .contentType(APPLICATION_JSON_UTF8)
-            .content(objectMapper.writeValueAsString(dup_user)))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        .contentType(APPLICATION_JSON_UTF8)
+        .content(objectMapper.writeValueAsString(dup_user)))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 
   }
@@ -95,24 +101,24 @@ public class UserControllerTest {
 
     // given
     User user = User.builder()
-            .email("test@naver.com")
-            .name("jsom")
-            .password("12345")
-            .activated(false)
-            .build();
+        .email("test@naver.com")
+        .userName("jsom")
+        .firstName("first")
+        .lastName("last")
+        .password("12345")
+//        .activated(false)
+        .build();
 
     // when
     mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
-            .contentType(APPLICATION_JSON_UTF8)
-            .content(objectMapper.writeValueAsString(user)));
+        .contentType(APPLICATION_JSON_UTF8)
+        .content(objectMapper.writeValueAsString(user)));
 
-
-    mockMvc.perform( MockMvcRequestBuilders
-            .get("/api/users/1"))
-            .andDo(print());
+    mockMvc.perform(MockMvcRequestBuilders
+        .get("/api/users/1"))
+        .andDo(print());
 
   }
-
 
 
   @Test

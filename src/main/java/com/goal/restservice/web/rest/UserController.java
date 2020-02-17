@@ -31,7 +31,7 @@ public class UserController {
      * Create a new user if the login and email are not already used.
      *
      *
-     * @param user the use to create
+     * @param userDTO the use to create
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new user, or with status {@code 400 (Bad Request)} if email is already in use.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      */

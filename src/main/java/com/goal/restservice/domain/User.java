@@ -15,6 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class User {
 
   @Id
@@ -45,15 +46,5 @@ public class User {
 
   private String introduction;
 
-  @Builder
-  public User(String email, String password, String userName, String firstName, String lastName, String imageUrl, String introduction){
-      this.email = email;
-      this.password = password;
-      this.userName = userName;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.imageUrl = imageUrl;
-      this.introduction = introduction;
-  }
 
 }

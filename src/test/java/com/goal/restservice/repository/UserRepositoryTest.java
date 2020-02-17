@@ -25,13 +25,15 @@ class UserRepositoryTest {
 
 
     @Test
-    public void 유저_생하기() {
+    public void 유저_생성하기() {
         //given
         userRepository.save(User.builder()
                 .email("demoni@naver.com")
-                .name("hello")
+                .userName("hello")
                 .password("12345")
-                .activated(false)
+                .firstName("first")
+                .lastName("last")
+//                .activated(false)
                 .build());
 
         System.out.println("#################################");
