@@ -3,18 +3,18 @@ package com.goal.restservice.service;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.UserDTO;
 
-
 public interface UserService {
-    UserDTO createUser(UserDTO userDTO);
+  UserDTO createUser(UserDTO userDTO);
 
-    UserDTO getUserById(Long id);
-    UserDTO getUserByUserName(String userName);
+  UserDTO getUserById(Long id);
 
-    void updateUser(User user);
+  UserDTO getUserByUserName(String userName);
 
-    User signIn(String email, String rawPassword) throws Exception;
+  void updateUser(User user);
 
-    boolean isEmailAlreadyUsed(String email);
-    boolean isUserNameAlreadyUsed(String userName);
+  User signIn(String email, String rawPassword) throws Exception;
 
+  boolean isEmailAlreadyUsed(String email);
+
+  boolean isUserNameAlreadyUsed(String userName);
 }

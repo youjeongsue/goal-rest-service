@@ -1,6 +1,5 @@
 package com.goal.restservice.web.rest;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.security.JwtInterceptor;
@@ -19,86 +18,78 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/auth")
 public class UserJWTController {
 
-    private JwtService jwtService;
-    private UserServiceImpl userServiceImpl;
+  private JwtService jwtService;
+  private UserServiceImpl userServiceImpl;
 
-    @Autowired
-    StringRedisTemplate redisTemplate;
+  @Autowired StringRedisTemplate redisTemplate;
 
+  public UserJWTController(JwtService jwtService, UserServiceImpl userServiceImpl) {
+    this.jwtService = jwtService;
+    this.userServiceImpl = userServiceImpl;
+  }
 
-    public UserJWTController(JwtService jwtService, UserServiceImpl userServiceImpl){
-        this.jwtService = jwtService;
-        this.userServiceImpl = userServiceImpl;
+  /**
+   * {@code POST /api/auth/login} : Authenticate a new user.
+   *
+   * @param user with email and password
+   * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with JWT token, or with
+   *     status {@code 401 (UNAUTHORIZED)} if user information are invalid.
+   */
+  @PostMapping("/login")
+  public ResponseEntity<JWTToken> login(@RequestBody User user) {
+
+    try {
+      User loginUser = userServiceImpl.signIn(user.getEmail(), user.getPassword());
+      String token = jwtService.createToken(loginUser);
+
+      return ResponseEntity.ok().body(new JWTToken(token));
+
+    } catch (Exception e) {
+      return new ResponseEntity<JWTToken>(new JWTToken(null), HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  /**
+   * {@code GET  /api/auth/logout  : Logout the user
+   *
+   * 1. Get the token from the request header
+   * 2. Invalidate the token
+   *   - cache the token into redis server with EX(millis) = [token's expire date] - [current date]
+   * 3. Following requests with the invalidated token are rejected from {@link JwtInterceptor#preHandle}
+   *
+   * @return 200
+   */
+  @GetMapping("/logout")
+  public ResponseEntity<String> logout() {
+
+    String token = jwtService.getToken();
+    ValueOperations<String, String> vop = redisTemplate.opsForValue();
+
+    vop.set(
+        token,
+        "expired",
+        jwtService.getExpireDate().getTime() - System.currentTimeMillis(),
+        TimeUnit.MILLISECONDS);
+
+    return ResponseEntity.ok("bye");
+  }
+
+  /** Object to return as body in JWT Authentication. */
+  static class JWTToken {
+
+    private String idToken;
+
+    JWTToken(String idToken) {
+      this.idToken = idToken;
     }
 
-
-    /**
-     * {@code POST  /api/auth/login}  : Authenticate a new user.
-     *
-     * @param user with email and password
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with JWT token, or with status {@code 401 (UNAUTHORIZED)} if user information are invalid.
-     */
-    @PostMapping("/login")
-    public ResponseEntity<JWTToken> login(@RequestBody User user){
-
-        try {
-            User loginUser = userServiceImpl.signIn(user.getEmail(), user.getPassword());
-            String token = jwtService.createToken(loginUser);
-
-            return ResponseEntity.ok()
-                    .body(new JWTToken(token));
-
-        } catch(Exception e) {
-            return new ResponseEntity<JWTToken>(new JWTToken(null), HttpStatus.UNAUTHORIZED);
-        }
+    @JsonProperty("id_token")
+    String getIdToken() {
+      return idToken;
     }
 
-    /**
-     * {@code GET  /api/auth/logout  : Logout the user
-     *
-     * 1. Get the token from the request header
-     * 2. Invalidate the token
-     *   - cache the token into redis server with EX(millis) = [token's expire date] - [current date]
-     * 3. Following requests with the invalidated token are rejected from {@link JwtInterceptor#preHandle}
-     *
-     * @return 200
-     */
-    @GetMapping("/logout")
-    public ResponseEntity<String> logout(){
-
-        String token = jwtService.getToken();
-        ValueOperations<String, String> vop = redisTemplate.opsForValue();
-
-        vop.set(
-                token,
-                "expired",
-                jwtService.getExpireDate().getTime() - System.currentTimeMillis(),
-                TimeUnit.MILLISECONDS);
-
-        return ResponseEntity.ok("bye");
+    void setIdToken(String idToken) {
+      this.idToken = idToken;
     }
-
-
-
-    /**
-     * Object to return as body in JWT Authentication.
-     */
-    static class JWTToken {
-
-        private String idToken;
-
-        JWTToken(String idToken) {
-            this.idToken = idToken;
-        }
-
-        @JsonProperty("id_token")
-        String getIdToken() {
-            return idToken;
-        }
-
-        void setIdToken(String idToken) {
-            this.idToken = idToken;
-        }
-    }
-
+  }
 }

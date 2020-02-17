@@ -7,13 +7,17 @@ import java.util.Date;
 import java.util.Map;
 
 public interface JwtService {
-    String createToken(User user);
-    boolean isUsable(String jwt);
+  String createToken(User user);
 
-    String getToken();
-    long getUserId();
-    String getUserEmail();
-    Date getExpireDate();
+  boolean isUsable(String jwt);
 
-    Claims get();
+  String getToken();
+
+  long getUserId();
+
+  String getUserEmail();
+
+  Date getExpireDate();
+
+  Claims get();
 }

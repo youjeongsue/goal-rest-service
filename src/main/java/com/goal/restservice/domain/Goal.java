@@ -18,7 +18,7 @@ public class Goal {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
+
   String category;
   String desc;
-
 }

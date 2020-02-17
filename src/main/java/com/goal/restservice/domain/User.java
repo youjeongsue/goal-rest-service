@@ -11,7 +11,10 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // with this, instance will be generated only through builder pattern.
+@NoArgsConstructor(
+    access =
+        AccessLevel
+            .PROTECTED) // with this, instance will be generated only through builder pattern.
 @AllArgsConstructor
 @Getter
 @Setter
@@ -22,29 +25,21 @@ public class User {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Email
-  private String email;
+  @Email private String email;
 
-  @NotNull
-  private String password;
+  @NotNull private String password;
 
-  @NotNull
-  private String userName;
+  @NotNull private String userName;
 
-  @NotNull
-  private String firstName;
+  @NotNull private String firstName;
 
-  @NotNull
-  private String lastName;
+  @NotNull private String lastName;
 
-  @CreatedDate
-  private LocalDate createdDate;
+  @CreatedDate private LocalDate createdDate;
 
   @Size(max = 256)
   @Column(name = "image_url", length = 256)
   private String imageUrl;
 
   private String introduction;
-
-
 }

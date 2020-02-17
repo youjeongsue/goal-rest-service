@@ -9,30 +9,23 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
-    private static final String[] EXCLUDE_PATHS = {
-            "/api/users",
-            "/api/auth/login",
-            "/error/**"
-    };
+  private static final String[] EXCLUDE_PATHS = {"/api/users", "/api/auth/login", "/error/**"};
 
+  private JwtInterceptor jwtInterceptor;
 
-    private JwtInterceptor jwtInterceptor;
+  public WebConfig(JwtInterceptor jwtInterceptor) {
+    this.jwtInterceptor = jwtInterceptor;
+  }
 
-    public WebConfig(JwtInterceptor jwtInterceptor){
-        this.jwtInterceptor = jwtInterceptor;
-    }
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
 
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns(EXCLUDE_PATHS);
-
-    }
+    registry
+        .addInterceptor(jwtInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(EXCLUDE_PATHS);
+  }
 }
