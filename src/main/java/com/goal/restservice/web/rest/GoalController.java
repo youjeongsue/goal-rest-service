@@ -1,17 +1,10 @@
 package com.goal.restservice.web.rest;
 
-import com.goal.restservice.domain.ResponseVO;
-import com.goal.restservice.domain.User;
-import com.goal.restservice.domain.goals.Goal;
 import com.goal.restservice.dto.GoalDto;
-import com.goal.restservice.repository.CategoryRepository;
-import com.goal.restservice.repository.GoalRepository;
-import com.goal.restservice.repository.UserRepository;
-import com.goal.restservice.service.GoalService;
+import com.goal.restservice.service.GoalServiceImpl;
 import java.util.List;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,78 +15,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/goal")
-@RequiredArgsConstructor
+@RequestMapping("/api/goals")
 public class GoalController {
 
-  private final GoalService goalService;
-  private final GoalRepository goalRepository;
-  private final CategoryRepository categoryRepository;
-  private final UserRepository userRepository;
+  private final GoalServiceImpl goalServiceImpl;
+
+  public GoalController(GoalServiceImpl goalServiceImpl) {
+    this.goalServiceImpl = goalServiceImpl;
+  }
 
   @PostMapping
-  public String create(@RequestBody GoalDto goal) {
-    try {
-//      long loginUserId = 1L;
-//      Optional<Users> loginUsers = usersRepository.findById(loginUserId);
-      goalRepository
-          .save(Goal.builder().category(categoryRepository.findByName(goal.getCategory()))
-              .title(goal.getTitle()).desc(goal.getDesc()).build());
-      return "success";
-    } catch (Exception e) {
-      return "failed";
-    }
+  public ResponseEntity<GoalDto> createGoal(@RequestBody GoalDto goal) {
+    GoalDto newGoal = goalServiceImpl.createGoal(goal);
+
+    return newGoal == null ? new ResponseEntity<GoalDto>(HttpStatus.INTERNAL_SERVER_ERROR)
+        : new ResponseEntity<GoalDto>(newGoal, HttpStatus.CREATED);
   }
 
   @GetMapping("/{id}")
-  public List<Goal> getGoalByUserId(@PathVariable long id) {
-    List<Goal> goals = goalRepository.findByUserIdOrderByModifiedDateDesc(id);
-    return goals;
+  public List<GoalDto> getGoalByUserId(@PathVariable long id) {
+    return goalServiceImpl.getGoalByUserId(id);
   }
 
   @GetMapping("/{id}")
-  public ResponseVO<?> getGoal(@PathVariable long id) {
-    ResponseVO<Goal> resp = new ResponseVO<>();
+  public ResponseEntity<GoalDto> getGoalById(@PathVariable long id) {
+    GoalDto goal = goalServiceImpl.getGoalById(id);
 
-    Optional<Goal> diary = goalRepository.findById(id);
-
-    resp.setResponse(diary.orElse(null));
-    return resp;
+    return goal == null ? new ResponseEntity<GoalDto>(HttpStatus.INTERNAL_SERVER_ERROR)
+        : new ResponseEntity<GoalDto>(goal, HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  public String updateGoal(@PathVariable long id, @RequestBody GoalDto goal) {
-    try {
-//      long loginUserId = jwtService.getMemberId();
-//      Optional<User> loginUsers = userRepository.findById(loginUserId);
-      Optional<Goal> pastGoal = goalRepository.findById(id);
+  public ResponseEntity<GoalDto> updateGoal(@PathVariable long id, @RequestBody GoalDto goalDto) {
+    GoalDto goal = goalServiceImpl.updateGoal(id, goalDto);
 
-      if (!pastGoal.isPresent()) {
-        return "failed";
-      }
-      goalRepository
-          .save(Goal.builder().category(categoryRepository.findByName(goal.getCategory()))
-              .id(id).title(goal.getTitle()).desc(goal.getDesc()).build());
-
-      return "success";
-    } catch (Exception e) {
-      return "falied";
-    }
+    return goal == null ? new ResponseEntity<GoalDto>(HttpStatus.INTERNAL_SERVER_ERROR)
+        : new ResponseEntity<GoalDto>(goal, HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable long id) {
-    try {
-//      long loginUserId = jwtService.getMemberId();
-//      Optional<User> loginUsers = userRepository.findById(loginUserId);
-      Optional<Goal> goal = goalRepository.findById(id);
-//      if (!goal.isPresent() || goal.get().getUser().getId() != loginUsers.get().getId())
-//        return "failed";
-      goalRepository.deleteById(id);
-
-      return "success";
-    } catch (Exception e) {
-      return "falied";
-    }
+  public ResponseEntity<Void> deleteGoal(@PathVariable long id) {
+    return goalServiceImpl.deleteGoal(id) ? new ResponseEntity<>(HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

@@ -6,21 +6,12 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
-@Service
-public class CategoryService {
+public interface CategoryService {
 
-  private final CategoryRepository categoryRepository;
 
-  public Category save(Category category) {
-    return categoryRepository.save(category);
-  }
+  void save(Category category);
 
-  public List<Category> findAll() {
-    return categoryRepository.findAll();
-  }
+  List<Category> findAll();
 
-  public Category findByName(String name) {
-    return categoryRepository.findByName(name);
-  }
+  Category findByName(String name);
 }

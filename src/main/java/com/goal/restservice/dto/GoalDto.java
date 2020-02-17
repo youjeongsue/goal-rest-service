@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// TODO: Add User to goalDto
 public class GoalDto {
 
   @NotBlank

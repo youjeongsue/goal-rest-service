@@ -1,17 +1,17 @@
 package com.goal.restservice.service;
 
-import com.goal.restservice.domain.goals.Goal;
-import com.goal.restservice.repository.GoalRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.goal.restservice.dto.GoalDto;
+import java.util.List;
 
-@RequiredArgsConstructor
-@Service
-public class GoalService {
+public interface GoalService {
 
-  private final GoalRepository goalRepository;
+  GoalDto createGoal(GoalDto goalDto);
 
-  public Goal save(Goal user) {
-    return goalRepository.save(user);
-  }
+  List<GoalDto> getGoalByUserId(long id);
+
+  GoalDto getGoalById(long id);
+
+  GoalDto updateGoal(long id, GoalDto goalDto);
+
+  boolean deleteGoal(long id);
 }
