@@ -1,13 +1,11 @@
 package com.goal.restservice.dto;
 
-import com.goal.restservice.domain.goals.Goal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Builder

@@ -3,22 +3,16 @@ package com.goal.restservice.web.rest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goal.restservice.domain.User;
-import com.goal.restservice.domain.categories.Category;
-import com.goal.restservice.domain.goals.Goal;
+import com.goal.restservice.domain.Category;
 import com.goal.restservice.dto.GoalDto;
 
 import com.goal.restservice.repository.UserRepository;
-import com.goal.restservice.service.CategoryService;
 import com.goal.restservice.service.CategoryServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,23 +35,23 @@ class GoalControllerTest {
   @Test
   public void 목표를_생성한다() throws Exception {
     //given
-    Category category = Category.builder()
-        .name("category1")
-        .build();
+//    Category category = Category.builder()
+//        .name("category1")
+//        .build();
 
-    categoryServiceImpl.save(category);
-    User user = User.builder().name("user").build();
-    userRepository.save(user);
-
-    GoalDto goalDto = GoalDto.builder().title("TOEIC").desc("990")
-        .userId(userRepository.findAll().get(0).getId())
-        .category("English")
-        .build();
-
-    mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(goalDto)))
-        .andDo(MockMvcResultHandlers.print());
+//    categoryServiceImpl.save(category);
+//    User user = User.builder().name("user").build();
+//    userRepository.save(user);
+//
+//    GoalDto goalDto = GoalDto.builder().title("TOEIC").desc("990")
+//        .userId(userRepository.findAll().get(0).getId())
+//        .category("English")
+//        .build();
+//
+//    mockMvc
+//        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
+//            .content(objectMapper.writeValueAsString(goalDto)))
+//        .andDo(MockMvcResultHandlers.print());
   }
 
   @Test

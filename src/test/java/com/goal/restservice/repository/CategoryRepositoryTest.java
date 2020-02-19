@@ -1,6 +1,6 @@
 package com.goal.restservice.repository;
 
-import com.goal.restservice.domain.categories.Category;
+import com.goal.restservice.domain.Category;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;

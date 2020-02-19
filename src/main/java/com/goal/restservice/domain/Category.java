@@ -1,6 +1,6 @@
-package com.goal.restservice.domain.categories;
+package com.goal.restservice.domain;
 
-import com.goal.restservice.domain.goals.Goal;
+import com.goal.restservice.domain.Goal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

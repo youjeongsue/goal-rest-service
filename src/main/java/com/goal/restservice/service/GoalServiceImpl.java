@@ -1,7 +1,7 @@
 package com.goal.restservice.service;
 
-import com.goal.restservice.domain.categories.Category;
-import com.goal.restservice.domain.goals.Goal;
+import com.goal.restservice.domain.Category;
+import com.goal.restservice.domain.Goal;
 import com.goal.restservice.dto.GoalDto;
 import com.goal.restservice.repository.GoalRepository;
 import com.goal.restservice.repository.UserRepository;

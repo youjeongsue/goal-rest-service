@@ -1,6 +1,6 @@
 package com.goal.restservice.repository;
 
-import com.goal.restservice.domain.categories.Category;
+import com.goal.restservice.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
