@@ -1,6 +1,8 @@
 package com.goal.restservice.web.rest;
 
 import com.goal.restservice.common.error.EmailAlreadyUsedException;
+import com.goal.restservice.common.error.UserNameAlreadyUsedException;
+import com.goal.restservice.common.errorcode.ErrorCode;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.service.JwtServiceImpl;
 import com.goal.restservice.service.UserServiceImpl;
@@ -39,9 +41,10 @@ public class UserController {
   private ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
 
     if (userServiceImpl.isEmailAlreadyUsed(userDTO.getEmail())) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use!");
+      throw new EmailAlreadyUsedException();
+
     } else if (userServiceImpl.isUserNameAlreadyUsed(userDTO.getUserName())) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username is already in use!");
+      throw new UserNameAlreadyUsedException();
     }
 
     UserDTO newUser = userServiceImpl.createUser(userDTO);
@@ -74,6 +77,7 @@ public class UserController {
   @GetMapping("/profile")
   private ResponseEntity<UserDTO> readUserProfile(@RequestParam("username") String userName) {
     UserDTO user = userServiceImpl.getUserByUserName(userName);
+
 
     if (user == null) return new ResponseEntity<UserDTO>(HttpStatus.NO_CONTENT);
 
