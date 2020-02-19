@@ -3,8 +3,7 @@ package com.goal.restservice.domain.goals;
 import com.goal.restservice.domain.BaseTimeEntity;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.domain.categories.Category;
-import java.time.LocalDateTime;
-import javax.persistence.Column;
+import java.time.LocalDate;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,5 +38,5 @@ public class Goal extends BaseTimeEntity {
 
   private String title;
   private String desc;
-  private LocalDateTime dueDate;
+  private LocalDate dueDate;
 }

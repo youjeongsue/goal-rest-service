@@ -1,8 +1,10 @@
 package com.goal.restservice.service;
 
+import com.goal.restservice.domain.categories.Category;
 import com.goal.restservice.domain.goals.Goal;
 import com.goal.restservice.dto.GoalDto;
 import com.goal.restservice.repository.GoalRepository;
+import com.goal.restservice.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,22 +17,29 @@ public class GoalServiceImpl implements GoalService {
 
   private final GoalRepository goalRepository;
   private final CategoryServiceImpl categoryServiceImpl;
+  private final UserRepository userRepository;
 
   public GoalServiceImpl(GoalRepository goalRepository,
-      CategoryServiceImpl categoryServiceImpl) {
+      CategoryServiceImpl categoryServiceImpl,
+      UserRepository userRepository) {
     this.goalRepository = goalRepository;
     this.categoryServiceImpl = categoryServiceImpl;
+    this.userRepository = userRepository;
   }
 
   @Override
   public GoalDto createGoal(GoalDto goalDto) {
+    // TODO: Replace hardcoded value
+   categoryServiceImpl.save(Category.builder().name("English").build());
 
     Goal goal = goalRepository
         .save(Goal.builder().category(categoryServiceImpl.findByName(goalDto.getCategory()))
-            .title(goalDto.getTitle()).desc(goalDto.getDesc()).build());
+            .title(goalDto.getTitle()).user(userRepository.findById(1L).get())
+            .desc(goalDto.getDesc()).build());
 
     return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
         .desc(goal.getDesc())
+        .userId(1L)
         .build();
   }
 
