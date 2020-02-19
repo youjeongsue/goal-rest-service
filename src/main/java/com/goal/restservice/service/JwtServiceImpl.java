@@ -74,7 +74,6 @@ public class JwtServiceImpl implements JwtService {
    */
   @Override
   public boolean isUsable(String jwt) {
-    // TODO : handle the expired token with time unit.
 
     try {
       Claims claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt).getBody();

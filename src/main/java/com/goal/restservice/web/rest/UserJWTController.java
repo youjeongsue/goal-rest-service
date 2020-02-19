@@ -1,6 +1,7 @@
 package com.goal.restservice.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.goal.restservice.common.error.EmailAlreadyUsedException;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.security.JwtInterceptor;
 import com.goal.restservice.service.JwtService;
@@ -38,15 +39,11 @@ public class UserJWTController {
   @PostMapping("/login")
   public ResponseEntity<JWTToken> login(@RequestBody User user) {
 
-    try {
-      User loginUser = userServiceImpl.signIn(user.getEmail(), user.getPassword());
-      String token = jwtService.createToken(loginUser);
+    User loginUser = userServiceImpl.signIn(user.getEmail(), user.getPassword());
+    String token = jwtService.createToken(loginUser);
 
-      return ResponseEntity.ok().body(new JWTToken(token));
+    return ResponseEntity.ok().body(new JWTToken(token));
 
-    } catch (Exception e) {
-      return new ResponseEntity<JWTToken>(new JWTToken(null), HttpStatus.UNAUTHORIZED);
-    }
   }
 
   /**
