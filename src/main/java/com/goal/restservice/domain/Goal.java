@@ -14,11 +14,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString(exclude = {"category", "user"})
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = {"id", "title"}, callSuper = false)
 public class Goal extends BaseTimeEntity {
 
   @Id
@@ -36,4 +35,20 @@ public class Goal extends BaseTimeEntity {
   private String title;
   private String desc;
   private LocalDate dueDate;
+
+  @Builder
+  public Goal(User user, Category category, String title, String desc, LocalDate dueDate) {
+    this.user = user;
+    this.category = category;
+    this.title = title;
+    this.desc = desc;
+    this.dueDate = dueDate;
+  }
+
+  public void updateGoal(Category category, String title, String desc, LocalDate dueDate) {
+    this.category = category;
+    this.title = title;
+    this.desc = desc;
+    this.dueDate = dueDate;
+  }
 }

@@ -30,7 +30,7 @@ public class GoalServiceImpl implements GoalService {
   @Override
   public GoalDto createGoal(GoalDto goalDto) {
     // TODO: Replace hardcoded value
-   categoryServiceImpl.save(Category.builder().name("English").build());
+    categoryServiceImpl.save(Category.builder().name("English").build());
 
     Goal goal = goalRepository
         .save(Goal.builder().category(categoryServiceImpl.findByName(goalDto.getCategory()))
@@ -39,7 +39,7 @@ public class GoalServiceImpl implements GoalService {
 
     return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
         .desc(goal.getDesc())
-        .userId(1L)
+//        .userId(1L)
         .build();
   }
 
@@ -69,21 +69,17 @@ public class GoalServiceImpl implements GoalService {
   @Override
   public GoalDto updateGoal(long id, GoalDto goalDto) {
 
-    Optional<Goal> oldGoal = goalRepository.findById(id);
+    Goal goal = goalRepository.getOne(id);
 
-    if (oldGoal.isPresent()) {
-      Goal goal = oldGoal.get();
+    goal.updateGoal(categoryServiceImpl
+            .findByName(goalDto.getCategory()), goalDto.getTitle(), goalDto.getDesc(),
+        goalDto.getDueDate());
+    goal = goalRepository.save(goal);
 
-      goal = goalRepository
-          .save(Goal.builder().id(goal.getId())
-              .category(categoryServiceImpl.findByName(goal.getCategory().getName()))
-              .id(goal.getId()).title(goal.getTitle()).desc(goal.getDesc()).build());
-      return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
-          .desc(goal.getDesc())
-          .build();
-    } else {
-      return null;
-    }
+    return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
+        .desc(goal.getDesc())
+        .build();
+
   }
 
   @Override
