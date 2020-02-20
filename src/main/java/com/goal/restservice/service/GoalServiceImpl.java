@@ -1,8 +1,9 @@
 package com.goal.restservice.service;
 
-import com.goal.restservice.domain.Category;
 import com.goal.restservice.domain.Goal;
+import com.goal.restservice.dto.CategoryDto;
 import com.goal.restservice.dto.GoalDto;
+import com.goal.restservice.repository.CategoryRepository;
 import com.goal.restservice.repository.GoalRepository;
 import com.goal.restservice.repository.UserRepository;
 import java.util.ArrayList;
@@ -18,22 +19,25 @@ public class GoalServiceImpl implements GoalService {
   private final GoalRepository goalRepository;
   private final CategoryServiceImpl categoryServiceImpl;
   private final UserRepository userRepository;
+  private final CategoryRepository categoryRepository;
 
   public GoalServiceImpl(GoalRepository goalRepository,
       CategoryServiceImpl categoryServiceImpl,
-      UserRepository userRepository) {
+      UserRepository userRepository,
+      CategoryRepository categoryRepository) {
     this.goalRepository = goalRepository;
     this.categoryServiceImpl = categoryServiceImpl;
     this.userRepository = userRepository;
+    this.categoryRepository = categoryRepository;
   }
 
   @Override
   public GoalDto createGoal(GoalDto goalDto) {
     // TODO: Replace hardcoded value
-    categoryServiceImpl.save(Category.builder().name("English").build());
+    categoryServiceImpl.createCategory(CategoryDto.builder().name("English").build());
 
     Goal goal = goalRepository
-        .save(Goal.builder().category(categoryServiceImpl.findByName(goalDto.getCategory()))
+        .save(Goal.builder().category(categoryRepository.findByName(goalDto.getCategory()))
             .title(goalDto.getTitle()).user(userRepository.findById(1L).get())
             .desc(goalDto.getDesc()).build());
 
@@ -44,18 +48,18 @@ public class GoalServiceImpl implements GoalService {
   }
 
   @Override
-  public List<GoalDto> getGoalByUserId(long id) {
+  public List<GoalDto> getGoalsByUserId(long id) {
     List<Goal> goals = goalRepository.findByUserIdOrderByModifiedDateDesc(id);
 //    Optional<List<Goal>> goals = goalRepository.findByUserIdOrderByModifiedDateDesc(id);
-    List<GoalDto> goalsDto = new ArrayList<GoalDto>();
+    List<GoalDto> goalDtos = new ArrayList<GoalDto>();
     for (Goal goal : goals) {
       if (goal != null) {
-        goalsDto.add(
+        goalDtos.add(
             GoalDto.builder().category(goal.getTitle()).title(goal.getTitle()).desc(goal.getDesc())
                 .build());
       }
     }
-    return goalsDto;
+    return goalDtos;
   }
 
   @Override
@@ -71,9 +75,10 @@ public class GoalServiceImpl implements GoalService {
 
     Goal goal = goalRepository.getOne(id);
 
-    goal.updateGoal(categoryServiceImpl
-            .findByName(goalDto.getCategory()), goalDto.getTitle(), goalDto.getDesc(),
+    goal.updateGoal(categoryRepository.findByName(goalDto.getCategory()), goalDto.getTitle(),
+        goalDto.getDesc(),
         goalDto.getDueDate());
+
     goal = goalRepository.save(goal);
 
     return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())

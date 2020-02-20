@@ -7,7 +7,7 @@ public interface GoalService {
 
   GoalDto createGoal(GoalDto goalDto);
 
-  List<GoalDto> getGoalByUserId(long id);
+  List<GoalDto> getGoalsByUserId(long id);
 
   GoalDto getGoalById(long id);
 

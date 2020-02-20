@@ -1,6 +1,5 @@
 package com.goal.restservice.domain;
 
-import com.goal.restservice.domain.Goal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -9,18 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString
 @Getter
-@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"id", "name"}, callSuper = false)
 public class Category {
 
   @Id
@@ -31,6 +30,11 @@ public class Category {
   private String name;
 
   @OneToMany(mappedBy = "category")
-  @Builder.Default
+//  @Builder.Default
   private List<Goal> goals = new ArrayList<Goal>();
+
+  @Builder
+  public Category(String name) {
+    this.name = name;
+  }
 }

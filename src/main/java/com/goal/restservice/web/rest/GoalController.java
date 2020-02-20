@@ -34,7 +34,7 @@ public class GoalController {
 
   @GetMapping("/{userId}")
   public List<GoalDto> getGoalByUserId(@PathVariable long userId) {
-    return goalServiceImpl.getGoalByUserId(userId);
+    return goalServiceImpl.getGoalsByUserId(userId);
   }
 
   @GetMapping("/{id}")

@@ -1,13 +1,8 @@
 package com.goal.restservice.web.rest;
 
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goal.restservice.domain.User;
-import com.goal.restservice.domain.Category;
+import com.goal.restservice.dto.CategoryDto;
 import com.goal.restservice.dto.GoalDto;
-
 import com.goal.restservice.repository.UserRepository;
 import com.goal.restservice.service.CategoryServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -34,12 +29,11 @@ class GoalControllerTest {
 
   @Test
   public void 목표를_생성한다() throws Exception {
-    //given
-//    Category category = Category.builder()
+//    CategoryDto categoryDto = CategoryDto.builder()
 //        .name("category1")
 //        .build();
-
-//    categoryServiceImpl.save(category);
+//
+//    categoryServiceImpl.createCategory(categoryDto);
 //    User user = User.builder().name("user").build();
 //    userRepository.save(user);
 //

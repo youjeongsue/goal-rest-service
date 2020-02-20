@@ -46,9 +46,17 @@ public class Goal extends BaseTimeEntity {
   }
 
   public void updateGoal(Category category, String title, String desc, LocalDate dueDate) {
-    this.category = category;
-    this.title = title;
-    this.desc = desc;
-    this.dueDate = dueDate;
+    if (category != null) {
+      this.category = category;
+    }
+    if (title != null) {
+      this.title = title;
+    }
+    if (desc != null) {
+      this.desc = desc;
+    }
+    if (dueDate != null) {
+      this.dueDate = dueDate;
+    }
   }
 }

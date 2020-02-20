@@ -4,6 +4,7 @@ import com.goal.restservice.domain.User;
 import com.goal.restservice.domain.Category;
 import com.goal.restservice.domain.Goal;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,14 @@ class GoalRepositoryTest {
   @Autowired
   UserRepository userRepository;
 
+  Category category;
+  Category category2;
+  Goal goal;
+
   @BeforeEach
   public void 목표_생성하기() {
 
-    Category category = Category.builder()
+    category = Category.builder()
         .name("category1")
         .build();
     categoryRepository.save(category);
@@ -43,17 +48,23 @@ class GoalRepositoryTest {
   public void 목표_수정하기() {
     Optional<Goal> goalOptional = goalRepository.findById(1L);
 
-    Goal goal = goalOptional.get();
+    goal = goalOptional.get();
 
-    Category category2 = Category.builder()
+    category2 = Category.builder()
         .name("category2")
         .build();
     categoryRepository.save(category2);
 
-    goal.updateGoal(category2, "update", "update desc", null);
+    goal.updateGoal(category2, "update", null, null);
 
     goal = goalRepository.getOne(goal.getId());
 
+  }
+
+  @AfterEach
+  public void 객체_확인하기() {
+    System.out.println(category);
+    System.out.println(category2);
     System.out.println(goal);
   }
 }
