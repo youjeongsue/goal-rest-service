@@ -7,7 +7,6 @@ import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.repository.UserRepository;
 import com.goal.restservice.util.PasswordEncoding;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -49,20 +48,20 @@ public class UserServiceImpl implements UserService {
   }
 
   /**
-   * @param email
-   * @param rawPassword
-   * @return
+   *
    */
   @Override
-  public User signIn(String email, String rawPassword) throws EmailNotMatchedException, PasswordNotMatchedException {
+  public User signIn(String email, String rawPassword)
+      throws EmailNotMatchedException, PasswordNotMatchedException {
 
     Optional<User> ou = userRepository.findOneByEmailIgnoreCase(email);
 
     if (ou.isPresent()) {
-      if (passwordEncoding.matches(rawPassword, ou.get().getPassword()))
+      if (passwordEncoding.matches(rawPassword, ou.get().getPassword())) {
         return ou.get();
-      else
+      } else {
         throw new PasswordNotMatchedException();
+      }
     } else {
       throw new EmailNotMatchedException();
     }

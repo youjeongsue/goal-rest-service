@@ -41,7 +41,6 @@ class GoalRepositoryTest {
     goalRepository
         .save(Goal.builder().user(user).category(category).title("title").desc("desc").build());
 
-
   }
 
   @Test

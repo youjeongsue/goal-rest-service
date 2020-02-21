@@ -1,6 +1,7 @@
 package com.goal.restservice.service;
 
 import com.goal.restservice.domain.Goal;
+import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.CategoryDto;
 import com.goal.restservice.dto.GoalDto;
 import com.goal.restservice.repository.CategoryRepository;
@@ -36,14 +37,14 @@ public class GoalServiceImpl implements GoalService {
     // TODO: Replace hardcoded value
     categoryServiceImpl.createCategory(CategoryDto.builder().name("English").build());
 
+    User user = userRepository.getOne(goalDto.getUserId());
     Goal goal = goalRepository
         .save(Goal.builder().category(categoryRepository.findByName(goalDto.getCategory()))
-            .title(goalDto.getTitle()).user(userRepository.findById(1L).get())
-            .desc(goalDto.getDesc()).build());
+            .title(goalDto.getTitle()).user(user).desc(goalDto.getDesc()).build());
 
     return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
         .desc(goal.getDesc())
-//        .userId(1L)
+        .userId(user.getId())
         .build();
   }
 

@@ -3,7 +3,6 @@ package com.goal.restservice.dto;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 // TODO: Add User to goalDto
 public class GoalDto {
@@ -32,9 +30,10 @@ public class GoalDto {
   private LocalDate dueDate;
 
   @Builder
-  public GoalDto(String title, String desc, String category, LocalDate dueDate) {
+  public GoalDto(String title, String desc, Long userId, String category, LocalDate dueDate) {
     this.title = title;
     this.desc = desc;
+    this.userId = userId;
     this.category = category;
     this.dueDate = dueDate;
   }

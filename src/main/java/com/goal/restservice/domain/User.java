@@ -16,6 +16,7 @@ import java.util.Date;
         AccessLevel
             .PROTECTED) // with this, instance will be generated only through builder pattern.
 @AllArgsConstructor
+@ToString
 @Getter
 @Setter
 @Builder

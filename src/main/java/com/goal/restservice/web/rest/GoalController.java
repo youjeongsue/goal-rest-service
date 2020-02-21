@@ -32,7 +32,7 @@ public class GoalController {
         : new ResponseEntity<GoalDto>(newGoal, HttpStatus.CREATED);
   }
 
-  @GetMapping("/{userId}")
+  @GetMapping("/profiles/{userId}")
   public List<GoalDto> getGoalByUserId(@PathVariable long userId) {
     return goalServiceImpl.getGoalsByUserId(userId);
   }

@@ -1,7 +1,6 @@
 package com.goal.restservice.web.rest;
 
 import com.goal.restservice.dto.CategoryDto;
-import com.goal.restservice.repository.CategoryRepository;
 import com.goal.restservice.service.CategoryServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-  private final CategoryRepository categoryRepository;
-  private CategoryServiceImpl categoryServiceImpl;
+  private final CategoryServiceImpl categoryServiceImpl;
 
   @PostMapping
   public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
