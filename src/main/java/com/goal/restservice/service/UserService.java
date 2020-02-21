@@ -1,21 +1,20 @@
 package com.goal.restservice.service;
 
 import com.goal.restservice.domain.User;
-import com.goal.restservice.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.goal.restservice.dto.UserDTO;
 
-@RequiredArgsConstructor
-@Service
-public class UserService {
+public interface UserService {
+  UserDTO createUser(UserDTO userDTO);
 
-  private final UserRepository userRepository;
+  UserDTO getUserById(Long id);
 
-  public User findOne(Long id) {
-    return userRepository.getOne(id);
-  }
+  UserDTO getUserByUserName(String userName);
 
-  public User save(User user) {
-    return userRepository.save(user);
-  }
+  void updateUser(User user);
+
+  User signIn(String email, String rawPassword) throws Exception;
+
+  boolean isEmailAlreadyUsed(String email);
+
+  boolean isUserNameAlreadyUsed(String userName);
 }
