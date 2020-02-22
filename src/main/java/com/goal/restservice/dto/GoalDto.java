@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 // TODO: Add User to goalDto
 public class GoalDto {
 
+  private Long id;
+
   @NotBlank
   @Size(min = 1, max = 50)
   private String title;
