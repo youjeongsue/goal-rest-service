@@ -8,7 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(
@@ -42,4 +44,8 @@ public class User {
   private String imageUrl;
 
   private String introduction;
+
+  //note와 관계 설정
+  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  private List<Note> notes = new ArrayList<>();
 }
