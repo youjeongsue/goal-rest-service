@@ -35,7 +35,6 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     String token;
-    //TODO : throw with ErrorResponse Entity
     try {
       token = request.getHeader(HEADER_AUTH).split(" ")[1];
     } catch (ArrayIndexOutOfBoundsException ex) {
