@@ -8,7 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(
@@ -18,7 +20,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Builder //TODO : 모든 필드 x
 public class User {
 
   @Id
@@ -42,4 +44,18 @@ public class User {
   private String imageUrl;
 
   private String introduction;
+
+  @OneToMany(mappedBy = "master")     // 실제 디비 스키마에는 영향이 없다. - 무시된다.
+  private List<Follow> masters = new ArrayList<>();
+
+  @OneToMany(mappedBy = "slave")
+  private List<Follow> slaves = new ArrayList<>();
+
+  public List<Follow> getMasters(){
+    return masters;
+  }
+
+  public List<Follow> getSlaves(){
+    return slaves;
+  }
 }
