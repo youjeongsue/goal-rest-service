@@ -32,8 +32,8 @@ public class FollowServiceImpl implements  FollowService{
             Follow newFollow = Follow.builder().master(masterUser.get()).slave(slaveUser.get()).build();
             followRepository.save(newFollow);
 
-            masterUser.get().getMasters().add(newFollow);
-            slaveUser.get().getSlaves().add(newFollow);
+//            masterUser.get().getMasters().add(newFollow);
+//            slaveUser.get().getSlaves().add(newFollow);
         }
 
     }

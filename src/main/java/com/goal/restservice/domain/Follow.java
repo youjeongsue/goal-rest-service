@@ -12,18 +12,30 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Table(
+        uniqueConstraints={
+                @UniqueConstraint(
+                        columnNames={"master_id","slave_id"}
+                )
+        }
+)
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="master")
+    @JoinColumn(name="master_id")
     private User master;
 
 
     @ManyToOne
-    @JoinColumn(name="slave")
+    @JoinColumn(name="slave_id")
     private User slave;
+
+    @Builder
+    public Follow(User master, User slave){
+        this.master = master;
+        this.slave = slave;
+    }
 }

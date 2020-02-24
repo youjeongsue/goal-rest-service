@@ -36,6 +36,15 @@ class UserRepositoryTest {
 //                .activated(false)
                 .build());
 
+        userRepository.save(User.builder()
+                .email("demoni@naver.com")
+                .userName("hello")
+                .password("12345")
+                .firstName("first")
+                .lastName("last")
+//                .activated(false)
+                .build());
+
         System.out.println("#################################");
 
 

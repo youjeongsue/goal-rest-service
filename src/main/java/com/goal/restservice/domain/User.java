@@ -45,17 +45,21 @@ public class User {
 
   private String introduction;
 
-  @OneToMany(mappedBy = "master")     // 실제 디비 스키마에는 영향이 없다. - 무시된다.
-  private List<Follow> masters = new ArrayList<>();
-
-  @OneToMany(mappedBy = "slave")
-  private List<Follow> slaves = new ArrayList<>();
-
-  public List<Follow> getMasters(){
-    return masters;
-  }
-
-  public List<Follow> getSlaves(){
-    return slaves;
-  }
+//  @OneToMany(mappedBy = "master")     // 실제 디비 스키마에는 영향이 없다. - 무시된다.
+//  private List<Follow> masters = new ArrayList<>();
+//
+//  @OneToMany(mappedBy = "slave")
+//  private List<Follow> slaves = new ArrayList<>();
+//
+//  public void addMaster(Follow follow){
+//    masters.add(follow);
+//  }
+//
+//  public List<Follow> getMasters(){
+//    return masters;
+//  }
+//
+//  public List<Follow> getSlaves(){
+//    return slaves;
+//  }
 }
