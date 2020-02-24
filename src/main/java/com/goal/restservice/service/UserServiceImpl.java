@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean isEmailAlreadyUsed(String email) {
+    System.out.println("isEmailAlreadyUsed called");
     return userRepository.findOneByEmailIgnoreCase(email).isPresent();
   }
 

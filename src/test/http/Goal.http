@@ -1,0 +1,13 @@
+GET localhost:8080/api/goals/1
+
+###
+POST localhost:8080/api/goals/
+
+{
+  "title": "test title",
+  "desc": "test desc",
+  "userId": "1",
+  "category": "English",
+}
+
+###

@@ -14,6 +14,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
+//@ToString
 @ToString(exclude = {"category"})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,7 +26,7 @@ public class Goal extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn
+  @JoinColumn(name = "goal_id")
   private Category category;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -47,7 +48,7 @@ public class Goal extends BaseTimeEntity {
 
   public void updateGoal(Category category, String title, String desc, LocalDate dueDate) {
     if (category != null) {
-      this.category = category;
+      setCategory(category);
     }
     if (title != null) {
       this.title = title;
@@ -57,6 +58,18 @@ public class Goal extends BaseTimeEntity {
     }
     if (dueDate != null) {
       this.dueDate = dueDate;
+    }
+  }
+
+  public void setCategory(Category category) {
+    if (this.category != null && this.category.getGoals() != null) {
+      this.category.getGoals().remove(this);
+    }
+
+    this.category = category;
+
+    if (category != null) {
+      category.getGoals().add(this);
     }
   }
 }

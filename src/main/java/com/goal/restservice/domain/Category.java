@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@ToString
+@ToString(exclude = "goals")
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"}, callSuper = false)
@@ -30,11 +30,16 @@ public class Category {
   private String name;
 
   @OneToMany(mappedBy = "category")
-//  @Builder.Default
   private List<Goal> goals = new ArrayList<Goal>();
+
+  public void addGoal(Goal goal) {
+    goal.setCategory(this);
+    this.goals.add(goal);
+  }
 
   @Builder
   public Category(String name) {
     this.name = name;
   }
+
 }

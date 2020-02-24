@@ -7,11 +7,11 @@ public interface GoalService {
 
   GoalDto createGoal(GoalDto goalDto);
 
-  List<GoalDto> getGoalsByUserId(long id);
+  List<GoalDto> getGoalsByUserId(Long id);
 
-  GoalDto getGoalById(long id);
+  GoalDto getGoalById(Long id);
 
-  GoalDto updateGoal(long id, GoalDto goalDto);
+  GoalDto updateGoal(Long id, GoalDto goalDto);
 
-  boolean deleteGoal(long id);
+  boolean deleteGoal(Long id);
 }

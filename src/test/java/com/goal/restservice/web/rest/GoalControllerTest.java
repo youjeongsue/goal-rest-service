@@ -26,7 +26,7 @@ class GoalControllerTest {
   @BeforeEach
   public void 목표를_생성한다() throws Exception {
     CategoryDto categoryDto = CategoryDto.builder()
-        .name("category1")
+        .name("English")
         .build();
 
     mockMvc.perform(
@@ -48,6 +48,17 @@ class GoalControllerTest {
         .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(goalDto)))
         .andDo(MockMvcResultHandlers.print());
+
+    GoalDto goalDto2 = GoalDto.builder().title("TOEFL").desc("990")
+        .userId(1L).category("English").build();
+
+    mockMvc
+        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(goalDto2)))
+        .andDo(MockMvcResultHandlers.print());
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/api/categories/English"))
+            .andDo(MockMvcResultHandlers.print());
   }
 
   @Test

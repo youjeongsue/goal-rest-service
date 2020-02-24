@@ -39,8 +39,10 @@ class GoalRepositoryTest {
     user = userRepository.save(user);
 
     goalRepository
-        .save(Goal.builder().user(user).category(category).title("title").desc("desc").build());
+        .save(Goal.builder().user(user).category(category).title("title1").desc("desc1").build());
 
+    goalRepository
+        .save(Goal.builder().user(user).category(category).title("title2").desc("desc2").build());
   }
 
   @Test
@@ -63,7 +65,7 @@ class GoalRepositoryTest {
   @AfterEach
   public void 객체_확인하기() {
     System.out.println(category);
-    System.out.println(category2);
+    System.out.println(category2.getGoals().get(0).getTitle());
     System.out.println(goal);
   }
 }
