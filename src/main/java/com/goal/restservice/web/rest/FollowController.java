@@ -1,16 +1,14 @@
 package com.goal.restservice.web.rest;
 
-import com.goal.restservice.common.error.EmailAlreadyUsedException;
-import com.goal.restservice.common.error.UserNameAlreadyUsedException;
 import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.service.FollowServiceImpl;
 import com.goal.restservice.service.JwtService;
-import io.jsonwebtoken.Jwt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * The convention of designing API is from...
@@ -37,22 +35,33 @@ public class FollowController {
         return "my followers";
     }
 
-    // get users that the current user is following.
+    /**
+     * get users that the current user is following.
+     *
+     * @return
+     */
     @GetMapping("/my/followed")
-    private String myFollowedUsers(){
-        return "my followers";
+    private ResponseEntity<List<UserDTO>> myFollowedUsers(){
+        Long userId = jwtService.getUserId();
+
+        List<UserDTO> myFollowedList = followServiceImpl.getAllFollowed(userId);
+
+        return new ResponseEntity<>(myFollowedList, HttpStatus.OK);
     }
 
 
-    // the current user requests for the following to the other user.
+    /**
+     *
+     * @param userDTO : the target user to be followed by the user of userId
+     * @return
+     */
     @PostMapping("/follow")
-    private String followUser(@RequestBody UserDTO userDTO) {
+    private ResponseEntity<String> followUser(@RequestBody UserDTO userDTO) {
         Long userId = jwtService.getUserId();
 
-        followServiceImpl.addFollowerToUserId(userId, userDTO);
+        followServiceImpl.userIdFollowUserDTO(userId, userDTO);
 
-
-        return userDTO.getUserName();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping

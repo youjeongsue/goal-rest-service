@@ -28,13 +28,13 @@ public class FollowServiceImpl implements  FollowService{
     /**
      * Make a relation between the follower(slave) and the followed(master)
      *
-     * @param userId : the user id who is followed (master)
-     * @param userDTO : the userDTO which only has a username and is a follower.
+     * @param userId : the user id who want to follow someone (slave)
+     * @param userDTO : the userDTO which only has a username and is the followed.
      */
     @Override
-    public void addFollowerToUserId(Long userId, UserDTO userDTO) {
-        Optional<User> masterUser = userRepository.findById(userId);
-        Optional<User> slaveUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
+    public void userIdFollowUserDTO(Long userId, UserDTO userDTO) {
+        Optional<User> slaveUser = userRepository.findById(userId);
+        Optional<User> masterUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
 
         if (slaveUser.isPresent() && masterUser.isPresent()) {
             //TODO : 이미 팔로우되어있으면

@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.swing.text.html.Option;
-
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * NOTE) For now, each test should be executed one by one.
+ *
+ *
+ */
 @SpringBootTest
 class FollowServiceImplTest {
     private static boolean initialized = false;
@@ -49,7 +49,7 @@ class FollowServiceImplTest {
                             .build());
         }
 
-        Assertions.assertEquals(userRepository.count(), 6);
+        Assertions.assertEquals(6, userRepository.count());
     }
 
     @Test
@@ -63,17 +63,10 @@ class FollowServiceImplTest {
             User fan = userRepository.findOneByUserNameIgnoreCase(DUMMY+i).orElse(null);
             Assertions.assertNotNull(fan);
 
-            followServiceImpl.addFollowerToUserId(star.getId(), UserDTO.builder().userName(fan.getUserName()).build());
+            followServiceImpl.userIdFollowUserDTO(fan.getId(), UserDTO.builder().userName(star.getUserName()).build());
         }
         Assertions.assertEquals(followRepository.count(), 3);
 
-        List<Follow> all = followRepository.findAll();
-
-        for(Follow f : all){
-            System.out.println("########");
-            System.out.println(f.getSlave());
-            System.out.println(f.getMaster());
-        }
 
         // when
         List<UserDTO> followerList = followServiceImpl.getAllFollower(star.getId());
@@ -98,7 +91,7 @@ class FollowServiceImplTest {
             User star = userRepository.findOneByUserNameIgnoreCase(DUMMY+i).orElse(null);
             Assertions.assertNotNull(star);
 
-            followServiceImpl.addFollowerToUserId(star.getId(), UserDTO.builder().userName(fan.getUserName()).build());
+            followServiceImpl.userIdFollowUserDTO(fan.getId(), UserDTO.builder().userName(star.getUserName()).build());
         }
         Assertions.assertEquals(followRepository.count(), 3);
 
@@ -120,7 +113,7 @@ class FollowServiceImplTest {
             User star = userRepository.findOneByUserNameIgnoreCase(DUMMY+i).orElse(null);
             Assertions.assertNotNull(star);
 
-            followServiceImpl.addFollowerToUserId(star.getId(), UserDTO.builder().userName(fan.getUserName()).build());
+            followServiceImpl.userIdFollowUserDTO(star.getId(), UserDTO.builder().userName(fan.getUserName()).build());
         }
         Assertions.assertEquals(followRepository.count(), 3);
 
@@ -151,7 +144,7 @@ class FollowServiceImplTest {
         for(int i=1; i <= 3; i++){
             User fan = userRepository.findOneByUserNameIgnoreCase(DUMMY+i).orElse(null);
             assert fan != null;
-            followServiceImpl.addFollowerToUserId(fan.getId(), UserDTO.builder().userName(fan.getUserName()).build());
+            followServiceImpl.userIdFollowUserDTO(fan.getId(), UserDTO.builder().userName(fan.getUserName()).build());
         }
 
         // then
