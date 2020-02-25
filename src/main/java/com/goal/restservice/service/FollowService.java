@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface FollowService {
 
-    void addFollowerToUserFromId(Long userId, UserDTO userDTO);
+    void addFollowerToUserId(Long userId, UserDTO userDTO);
 
     List<UserDTO> getAllFollower(Long userId);
 
+    List<UserDTO> getAllFollowed(Long userId);
+
+    void unfollow(Long userId, UserDTO userDTO);
 }

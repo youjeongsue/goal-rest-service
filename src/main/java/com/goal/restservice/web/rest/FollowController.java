@@ -49,7 +49,7 @@ public class FollowController {
     private String followUser(@RequestBody UserDTO userDTO) {
         Long userId = jwtService.getUserId();
 
-        followServiceImpl.addFollowerToUserFromId(userId, userDTO);
+        followServiceImpl.addFollowerToUserId(userId, userDTO);
 
 
         return userDTO.getUserName();

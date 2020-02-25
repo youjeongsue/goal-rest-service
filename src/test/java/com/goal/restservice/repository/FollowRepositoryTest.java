@@ -130,7 +130,7 @@ class FollowRepositoryTest {
 
         List<Follow> followList = followRepository.findByMasterId(master.getId());
 
-        int i= 2;
+        int i= 3;
         for(Follow f : followList){
             System.out.println(f.getSlave().getUserName());
             Assertions.assertEquals(f.getSlave().getUserName(), mameList[i++]);
