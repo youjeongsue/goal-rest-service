@@ -37,4 +37,9 @@ public class Goal extends BaseTimeEntity {
   //note와 관계 설정
   @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Note> notes = new ArrayList<>();
+
+  public void addNote(Note note){
+    note.setGoal(this);
+    this.notes.add(note);
+  }
 }

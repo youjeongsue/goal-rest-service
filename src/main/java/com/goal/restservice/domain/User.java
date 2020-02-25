@@ -48,4 +48,9 @@ public class User {
   //note와 관계 설정
   @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Note> notes = new ArrayList<>();
+
+  public void addNote(Note note){
+    note.setUser(this);
+    this.notes.add(note);
+  }
 }
