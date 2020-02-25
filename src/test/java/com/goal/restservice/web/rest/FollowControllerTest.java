@@ -92,6 +92,7 @@ class FollowControllerTest {
 
     }
 
+
     @Test
     public void 팔로우_하기() throws Exception{
         String url = "/api/social.following/follow";

@@ -21,7 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder //TODO : 모든 필드 x
-public class User {
+public class User extends BaseTimeEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,20 +37,20 @@ public class User {
 
   @NotNull private String lastName;
 
-  @CreatedDate private LocalDate createdDate;
-
   @Size(max = 256)
   @Column(name = "image_url", length = 256)
   private String imageUrl;
 
   private String introduction;
 
-//  @OneToMany(mappedBy = "master")     // 실제 디비 스키마에는 영향이 없다. - 무시된다.
+
+//  @OneToMany(mappedBy = "master", cascade = CascadeType.REMOVE)     // 실제 디비 스키마에는 영향이 없다. - 무시된다.
 //  private List<Follow> masters = new ArrayList<>();
 //
 //  @OneToMany(mappedBy = "slave")
 //  private List<Follow> slaves = new ArrayList<>();
-//
+
+  //
 //  public void addMaster(Follow follow){
 //    masters.add(follow);
 //  }

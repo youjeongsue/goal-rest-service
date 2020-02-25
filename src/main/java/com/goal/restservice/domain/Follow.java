@@ -1,6 +1,8 @@
 package com.goal.restservice.domain;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -19,18 +21,20 @@ import javax.persistence.*;
                 )
         }
 )
-public class Follow {
+public class Follow extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="master_id")
     private User master;
 
 
     @ManyToOne
     @JoinColumn(name="slave_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User slave;
 
     @Builder

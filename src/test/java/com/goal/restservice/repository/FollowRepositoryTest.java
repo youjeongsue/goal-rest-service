@@ -61,6 +61,56 @@ class FollowRepositoryTest {
         Assertions.assertEquals(userRepository.count(), 6);
     }
 
+    /**
+     * 케스테이드 : master가 탈퇴 시 follow 정보도 cascade
+     *
+     */
+    @Test
+    public void 케스케이드_확인(){
+        makeThreeFollower();
+
+        Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+        User master =optionalUser.orElse(null);
+
+        // 현재 follow 3개
+        Assertions.assertEquals(followRepository.count(), 3);
+
+        userRepository.deleteById(master.getId());
+        Assertions.assertEquals(userRepository.count(), 5);
+
+        // When a user is removed from the table, related columns in the follow table are removed on cascade.
+        Assertions.assertEquals(followRepository.count(), 0);
+    }
+
+    /**
+     * 언팔로우 확인
+     */
+    @Test
+    public void 언팔로우(){
+
+        makeThreeFollower();
+
+        Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+        User master =optionalUser.orElse(null);
+
+        optionalUser = userRepository.findOneByUserNameIgnoreCase("slave3");
+        User slave3 = optionalUser.orElse(null);
+
+        // unfollow
+        followRepository.deleteFollowing(slave3.getId(), master.getId());
+        Assertions.assertEquals(followRepository.count(), 2);
+
+        // master의 follower 조회
+        List<Follow> followList = followRepository.findByMasterId(master.getId());
+
+        int i = 1;
+        for(Follow f : followList){
+            Assertions.assertEquals(f.getSlave().getUserName(), "slave"+(i++));
+        }
+
+    }
+
+
     @Test
     public void 자신의_모든_팔로워_조회(){
 
@@ -87,6 +137,24 @@ class FollowRepositoryTest {
         }
 
     }
+
+    @Test
+    public void 관계_타임스탬프() throws Exception{
+        Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master2");
+        User master =optionalUser.orElse(null);
+
+        optionalUser = userRepository.findOneByUserNameIgnoreCase("slave2");
+        User slave = optionalUser.orElse(null);
+
+        followRepository.save(Follow.builder().master(master).slave(slave).build());
+        Assertions.assertEquals(followRepository.count(), 1);
+
+        List<Follow> followList = followRepository.findByMasterId(master.getId());
+        Assertions.assertEquals(followList.size(), 1);
+
+        System.out.println(followList.get(0).getCreatedDate());
+    }
+
 
     /**
      *  Test for UNIQUE CONSTRAINTS
@@ -188,6 +256,28 @@ class FollowRepositoryTest {
         Assertions.assertEquals(followList2.size(), 1);
 
         System.out.println("##########");
+
+    }
+
+
+    private void makeThreeFollower(){
+        Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+        User master =optionalUser.orElse(null);
+
+        optionalUser = userRepository.findOneByUserNameIgnoreCase("slave1");
+        User slave = optionalUser.orElse(null);
+
+        optionalUser = userRepository.findOneByUserNameIgnoreCase("slave2");
+        User slave2 = optionalUser.orElse(null);
+
+        optionalUser = userRepository.findOneByUserNameIgnoreCase("slave3");
+        User slave3 = optionalUser.orElse(null);
+
+        followRepository.save(Follow.builder().master(master).slave(slave).build());
+        followRepository.save(Follow.builder().master(master).slave(slave2).build());
+        followRepository.save(Follow.builder().master(master).slave(slave3).build());
+
+        Assertions.assertEquals(followRepository.count(), 3);
 
     }
 }

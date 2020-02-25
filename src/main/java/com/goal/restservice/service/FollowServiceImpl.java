@@ -8,6 +8,7 @@ import com.goal.restservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,10 +32,12 @@ public class FollowServiceImpl implements  FollowService{
             //TODO : 이미 팔로우되어있으면
             Follow newFollow = Follow.builder().master(masterUser.get()).slave(slaveUser.get()).build();
             followRepository.save(newFollow);
-
-//            masterUser.get().getMasters().add(newFollow);
-//            slaveUser.get().getSlaves().add(newFollow);
         }
+    }
 
+    @Override
+    public List<UserDTO> getAllFollower(Long userId) {
+
+        return null;
     }
 }
