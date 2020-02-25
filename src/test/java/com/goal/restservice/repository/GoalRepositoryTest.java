@@ -65,7 +65,7 @@ class GoalRepositoryTest {
   @AfterEach
   public void 객체_확인하기() {
     System.out.println(category);
-    System.out.println(category2.getGoals().get(0).getTitle());
+    System.out.println(category2.getGoals().get(0).getName());
     System.out.println(goal);
   }
 }

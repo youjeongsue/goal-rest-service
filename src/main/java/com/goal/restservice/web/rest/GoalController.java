@@ -1,5 +1,6 @@
 package com.goal.restservice.web.rest;
 
+import com.goal.restservice.common.error.GoalCreateFailException;
 import com.goal.restservice.common.error.GoalDoesNotExistException;
 import com.goal.restservice.dto.GoalDto;
 import com.goal.restservice.service.GoalServiceImpl;
@@ -31,8 +32,10 @@ public class GoalController {
   public ResponseEntity<GoalDto> createGoal(@RequestBody GoalDto goal) {
     GoalDto newGoal = goalServiceImpl.createGoal(goal);
 
-    return newGoal == null ? new ResponseEntity<GoalDto>(HttpStatus.INTERNAL_SERVER_ERROR)
-        : new ResponseEntity<GoalDto>(newGoal, HttpStatus.CREATED);
+    if (newGoal == null) {
+      throw new GoalCreateFailException();
+    }
+    return new ResponseEntity<GoalDto>(newGoal, HttpStatus.CREATED);
   }
 
   @GetMapping("/profiles/{userId}")

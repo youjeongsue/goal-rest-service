@@ -1,10 +1,10 @@
 package com.goal.restservice.util;
 
 import com.goal.restservice.common.error.EmailAlreadyUsedException;
+import com.goal.restservice.common.error.GoalCreateFailException;
 import com.goal.restservice.common.error.GoalDoesNotExistException;
 import com.goal.restservice.common.error.PasswordNotMatchedException;
 import com.goal.restservice.common.error.UserNameAlreadyUsedException;
-import com.goal.restservice.common.error.EmailNotMatchedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +51,12 @@ public class GlobalExceptionHandler {
         new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
   }
 
+  @ExceptionHandler(GoalCreateFailException.class)
+  protected ResponseEntity<ErrorResponse> handleGoalCreateFailException(
+      GoalCreateFailException e) {
+    log.info(e.getErrorCode().getMessage());
 
+    return new ResponseEntity<>(
+        new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
 }

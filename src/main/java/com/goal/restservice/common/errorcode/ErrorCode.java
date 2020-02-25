@@ -12,7 +12,7 @@ public enum ErrorCode {
   LOGIN_PASSWORD_NOT_MATCHED(400, "M003", "Password is not matched"),
   LOGIN_EMAIL_NOT_MATCHED(400, "M004", "email is not registered"),
   GOAL_DOES_NOT_EXIST(400, "M005", "goal does not exist"),
-
+  GOAL_CREATE_FAIL(400, "M006", "Creating goal failed"),
   ;
 
   private final String code;

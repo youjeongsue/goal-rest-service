@@ -1,20 +1,24 @@
 package com.goal.restservice.domain;
 
 import java.time.LocalDate;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import lombok.*;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-//@ToString
 @ToString(exclude = {"category"})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +39,8 @@ public class Goal extends BaseTimeEntity {
 
   private String title;
   private String desc;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate dueDate;
 
   @Builder
@@ -72,4 +78,5 @@ public class Goal extends BaseTimeEntity {
       category.getGoals().add(this);
     }
   }
+
 }
