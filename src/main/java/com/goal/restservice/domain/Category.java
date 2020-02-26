@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@ToString(exclude = "goals")
+//@ToString(exclude = "goals")
+@ToString
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"}, callSuper = false)

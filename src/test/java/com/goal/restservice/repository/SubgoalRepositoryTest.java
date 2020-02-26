@@ -1,8 +1,9 @@
 package com.goal.restservice.repository;
 
-import com.goal.restservice.domain.User;
 import com.goal.restservice.domain.Category;
 import com.goal.restservice.domain.Goal;
+import com.goal.restservice.domain.Subgoal;
+import com.goal.restservice.domain.User;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,23 +12,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
-class GoalRepositoryTest {
+class SubgoalRepositoryTest {
 
   @Autowired
-  GoalRepository goalRepository;
+  UserRepository userRepository;
+
+  @Autowired
+  SubgoalRepository subgoalRepository;
 
   @Autowired
   CategoryRepository categoryRepository;
   @Autowired
-  UserRepository userRepository;
+  GoalRepository goalRepository;
 
   Category category;
-  Category category2;
   Goal goal;
 
   @BeforeEach
   public void 목표_생성하기() {
-
     category = Category.builder()
         .name("category1")
         .build();
@@ -46,27 +48,18 @@ class GoalRepositoryTest {
   }
 
   @Test
-  public void 목표_수정하기() {
+  public void 서브목표_생성하기() {
     Optional<Goal> goalOptional = goalRepository.findById(1L);
-
     goal = goalOptional.get();
-
-    category2 = Category.builder()
-        .name("category2")
+    Subgoal subgoal = Subgoal.builder().goal(goal).desc("desc").title("title").dueDate(null)
         .build();
-    categoryRepository.save(category2);
-
-    goal.updateGoal(category2, "update", null, null);
-
-    goal = goalRepository.getOne(goal.getId());
-
+    subgoalRepository.save(subgoal);
+    System.out.println(subgoal);
   }
 
   @AfterEach
   public void 객체_확인하기() {
     System.out.println(category);
-    System.out.println(category2.getGoals().get(0).getTitle());
     System.out.println(goal);
   }
 }
-

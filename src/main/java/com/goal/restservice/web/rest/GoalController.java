@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-//@RequestMapping(value = "/api/goals", method = {RequestMethod.GET, RequestMethod.POST,
-//    RequestMethod.PATCH, RequestMethod.DELETE})
 @RequestMapping("/api/goals")
 public class GoalController {
 

@@ -4,6 +4,8 @@ import com.goal.restservice.common.error.EmailAlreadyUsedException;
 import com.goal.restservice.common.error.GoalCreateFailException;
 import com.goal.restservice.common.error.GoalDoesNotExistException;
 import com.goal.restservice.common.error.PasswordNotMatchedException;
+import com.goal.restservice.common.error.SubgoalCreateFailException;
+import com.goal.restservice.common.error.SubgoalDoesNotExistException;
 import com.goal.restservice.common.error.UserNameAlreadyUsedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,6 +56,24 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(GoalCreateFailException.class)
   protected ResponseEntity<ErrorResponse> handleGoalCreateFailException(
       GoalCreateFailException e) {
+    log.info(e.getErrorCode().getMessage());
+
+    return new ResponseEntity<>(
+        new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
+
+  @ExceptionHandler(SubgoalCreateFailException.class)
+  protected ResponseEntity<ErrorResponse> handleSubgoalCreateFailException(
+      SubgoalCreateFailException e) {
+    log.info(e.getErrorCode().getMessage());
+
+    return new ResponseEntity<>(
+        new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
+
+  @ExceptionHandler(SubgoalDoesNotExistException.class)
+  protected ResponseEntity<ErrorResponse> handleSubgoalDoesNotExistException(
+      SubgoalDoesNotExistException e) {
     log.info(e.getErrorCode().getMessage());
 
     return new ResponseEntity<>(

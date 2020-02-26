@@ -33,6 +33,7 @@ public class GoalServiceImpl implements GoalService {
   @Override
   public GoalDto createGoal(GoalDto goalDto) {
 
+    // TODO: Find user by token ID?
     User user = userRepository.getOne(goalDto.getUserId());
     // TODO: Throw error if category is null
     Category category = categoryRepository.findByName(goalDto.getCategory());

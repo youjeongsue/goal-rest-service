@@ -1,13 +1,14 @@
 GET localhost:8080/api/goals/1
 
 ###
-POST localhost:8080/api/goals/
+POST localhost:8080/api/goals
+Content-Type: application/json
 
 {
-  "title": "test title",
-  "desc": "test desc",
+  "title": "goal1",
+  "desc": "desc",
   "userId": "1",
-  "category": "English",
+  "category": "English"
 }
 
 ###

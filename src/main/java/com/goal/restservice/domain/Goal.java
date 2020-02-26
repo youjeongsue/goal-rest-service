@@ -1,6 +1,7 @@
 package com.goal.restservice.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,7 +21,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@ToString(exclude = {"category"})
+//@ToString(exclude = {"category"})
+@ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id", "title"}, callSuper = false)
@@ -43,11 +46,14 @@ public class Goal extends BaseTimeEntity {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate dueDate;
 
+  @OneToMany(mappedBy = "goal")
+  private List<Subgoal> subgoals;
+
   @Builder
   public Goal(User user, Category category, String title, String desc, LocalDate dueDate) {
     this.user = user;
     this.category = category;
-    this.title = title;
+    this.title= title;
     this.desc = desc;
     this.dueDate = dueDate;
   }
@@ -57,7 +63,7 @@ public class Goal extends BaseTimeEntity {
       setCategory(category);
     }
     if (title != null) {
-      this.title = title;
+      this.title= title;
     }
     if (desc != null) {
       this.desc = desc;
@@ -79,4 +85,8 @@ public class Goal extends BaseTimeEntity {
     }
   }
 
+  public void addSubGoal(Subgoal subGoal) {
+    subGoal.setGoal(this);
+    this.subgoals.add(subGoal);
+  }
 }
