@@ -1,11 +1,7 @@
 package com.goal.restservice.dto;
 
 import com.goal.restservice.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -29,9 +25,8 @@ public class UserDTO {
 
   private String introduction;
 
-
   @Builder(builderClassName = "ByFollowerBuilder", builderMethodName = "ByFollowerBuilder")
-  public UserDTO(User user){
+  public UserDTO(User user) {
     this.email = user.getEmail();
     this.userName = user.getUserName();
     this.firstName = user.getFirstName();

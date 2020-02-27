@@ -6,11 +6,15 @@ import java.util.List;
 
 public interface FollowService {
 
-    void userIdFollowUserDTO(Long userId, UserDTO userDTO);
+  void userIdFollowUserDTO(Long userId, UserDTO userDTO);
 
-    List<UserDTO> getAllFollower(Long userId);
+  List<UserDTO> getAllFollower(Long userId);
 
-    List<UserDTO> getAllFollowed(Long userId);
+  List<UserDTO> getAllFollower(String username);
 
-    void unfollow(Long userId, UserDTO userDTO);
+  List<UserDTO> getAllFollowed(Long userId);
+
+  List<UserDTO> getAllFollowed(String username);
+
+  void unfollow(Long userId, UserDTO userDTO);
 }

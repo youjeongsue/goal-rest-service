@@ -1,5 +1,6 @@
 package com.goal.restservice.service;
 
+import com.goal.restservice.common.error.UserNotExistException;
 import com.goal.restservice.domain.Follow;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.UserDTO;
@@ -15,82 +16,125 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class FollowServiceImpl implements  FollowService{
+public class FollowServiceImpl implements FollowService {
 
-    private UserRepository userRepository;
-    private FollowRepository followRepository;
+  private UserRepository userRepository;
+  private FollowRepository followRepository;
 
-    FollowServiceImpl(UserRepository userRepository, FollowRepository followRepository){
-        this.userRepository = userRepository;
-        this.followRepository = followRepository;
+  FollowServiceImpl(UserRepository userRepository, FollowRepository followRepository) {
+    this.userRepository = userRepository;
+    this.followRepository = followRepository;
+  }
+
+  /**
+   * Make a relation between the follower(slave) and the followed(master)
+   *
+   * @param userId : the user id who want to follow someone (slave)
+   * @param userDTO : the userDTO which only has a username and is the followed.
+   */
+  @Override
+  public void userIdFollowUserDTO(Long userId, UserDTO userDTO) {
+    Optional<User> slaveUser = userRepository.findById(userId);
+    Optional<User> masterUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
+    List<Follow> followList = followRepository.findAll();
+
+    if (slaveUser.isPresent() && masterUser.isPresent()) {
+      // TODO : 이미 팔로우되어있으면
+      Follow newFollow = Follow.builder().master(masterUser.get()).slave(slaveUser.get()).build();
+      followRepository.save(newFollow);
+    }
+  }
+
+  /**
+   * Retrieve all the follower of th mine.
+   *
+   * @param userId : user who want to know all the followers.
+   * @return
+   */
+  @Override
+  public List<UserDTO> getAllFollower(Long userId) {
+    List<Follow> followList = followRepository.findByMasterId(userId);
+    ArrayList<UserDTO> followerUserDTOList = new ArrayList<>();
+
+    for (Follow follow : followList) {
+      followerUserDTOList.add(UserDTO.ByFollowerBuilder().user(follow.getSlave()).build());
     }
 
-    /**
-     * Make a relation between the follower(slave) and the followed(master)
-     *
-     * @param userId : the user id who want to follow someone (slave)
-     * @param userDTO : the userDTO which only has a username and is the followed.
-     */
-    @Override
-    public void userIdFollowUserDTO(Long userId, UserDTO userDTO) {
-        Optional<User> slaveUser = userRepository.findById(userId);
-        Optional<User> masterUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
+    return followerUserDTOList;
+  }
 
-        if (slaveUser.isPresent() && masterUser.isPresent()) {
-            //TODO : 이미 팔로우되어있으면
-            Follow newFollow = Follow.builder().master(masterUser.get()).slave(slaveUser.get()).build();
-            followRepository.save(newFollow);
-        }
+  /**
+   * Retrieve all the follower of th specific user.
+   *
+   * @param username : want to know this user's follower.
+   * @return
+   */
+  @Override
+  public List<UserDTO> getAllFollower(String username) {
+    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(username);
+    List<Follow> followList;
+
+    if (optionalUser.isPresent())
+      followList = followRepository.findByMasterId(optionalUser.get().getId());
+    else throw new UserNotExistException();
+
+    ArrayList<UserDTO> followerUserDTOList = new ArrayList<>();
+
+    for (Follow follow : followList) {
+      followerUserDTOList.add(UserDTO.ByFollowerBuilder().user(follow.getSlave()).build());
     }
 
-    /**
-     * Retrieve all the follower of th specific user.
-     *
-     * @param userId : user who want to know all the followers.
-     * @return
-     */
-    @Override
-    public List<UserDTO> getAllFollower(Long userId) {
-        List<Follow> followList = followRepository.findByMasterId(userId);
-        ArrayList<UserDTO> followerUserDTOList = new ArrayList<>();
+    return followerUserDTOList;
+  }
 
-        for(Follow follow : followList){
-            followerUserDTOList.add(UserDTO.ByFollowerBuilder().user(follow.getSlave()).build());
-        }
+  /**
+   * Retrieve all the users who are followed by the specific user
+   *
+   * @param userId : the user who want to know all the user who he is following to.
+   * @return
+   */
+  @Override
+  public List<UserDTO> getAllFollowed(Long userId) {
+    List<Follow> followedList = followRepository.findBySlaveId(userId);
+    ArrayList<UserDTO> followedUserDTOList = new ArrayList<>();
 
-        return followerUserDTOList;
+    for (Follow follow : followedList) {
+      followedUserDTOList.add(UserDTO.ByFollowerBuilder().user(follow.getMaster()).build());
     }
 
-    /**
-     * Retrieve all the users who are followed by the specific user
-     *
-     * @param userId : the user who want to know all the user who he is following to.
-     * @return
-     */
-    @Override
-    public List<UserDTO> getAllFollowed(Long userId) {
-        List<Follow> followedList = followRepository.findBySlaveId(userId);
-        ArrayList<UserDTO> followedUserDTOList = new ArrayList<>();
+    return followedUserDTOList;
+  }
 
-        for(Follow follow : followedList){
-            followedUserDTOList.add(UserDTO.ByFollowerBuilder().user(follow.getMaster()).build());
-        }
+  @Override
+  public List<UserDTO> getAllFollowed(String username) {
+    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(username);
+    List<Follow> followedList;
 
-        return followedUserDTOList;
+    if (optionalUser.isPresent())
+      followedList = followRepository.findBySlaveId(optionalUser.get().getId());
+    else throw new UserNotExistException();
+
+    ArrayList<UserDTO> followerUserDTOList = new ArrayList<>();
+
+    for (Follow follow : followedList) {
+      followerUserDTOList.add(UserDTO.ByFollowerBuilder().user(follow.getMaster()).build());
     }
 
-    /**
-     * The user identified by userId will cancel the follow to the userDTO.
-     *
-     * @param userId : user who want to remove the follow.
-     * @param userDTO : user who is not interesting any more.
-     */
-    @Override
-    @Transactional
-    public void unfollow(Long userId, UserDTO userDTO) {
-        Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
-        User oneThatNotAttractive =optionalUser.orElse(null);
+    return followerUserDTOList;
+  }
 
-        followRepository.deleteFollowing(userId, oneThatNotAttractive.getId());
-    }
+  /**
+   * The user identified by userId will cancel the follow to the userDTO.
+   *
+   * @param userId : user who want to remove the follow.
+   * @param userDTO : user who is not interesting any more.
+   */
+  @Override
+  @Transactional
+  public void unfollow(Long userId, UserDTO userDTO) {
+    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
+    User oneThatNotAttractive = optionalUser.orElse(null);
+
+    followRepository.deleteFollowing(userId, oneThatNotAttractive.getId());
+  }
 }

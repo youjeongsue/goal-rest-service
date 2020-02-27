@@ -17,27 +17,21 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Slf4j
 @Service("jwtService")
 @PropertySource(value = {"classpath:application.properties"})
 public class JwtServiceImpl implements JwtService {
 
-  @Value("${jwt.secret}")
-  private String SALT;
-
   private static final String ISSUER = "Naver";
   private static final String SUBJECT = "User";
   private static final String PRIVATE_CLAIM_ID = "userId";
   private static final String PRIVATE_CLAIM_EMAIL = "email";
-
   private static final int EXPIRED_DATE_DURATION = (1000 * 60 * 60 * 24);
-
   @Autowired StringRedisTemplate redisTemplate;
+  @Value("${jwt.secret}")
+  private String SALT;
 
   /**
    * Create a JWT Token including [Header] typ : JWT alg : HS256
