@@ -1,7 +1,7 @@
 package com.goal.restservice.service;
 
-import com.goal.restservice.common.error.PasswordNotMatchedException;
 import com.goal.restservice.common.error.EmailNotMatchedException;
+import com.goal.restservice.common.error.PasswordNotMatchedException;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.repository.UserRepository;
@@ -54,15 +54,14 @@ public class UserServiceImpl implements UserService {
    * @return
    */
   @Override
-  public User signIn(String email, String rawPassword) throws EmailNotMatchedException, PasswordNotMatchedException {
+  public User signIn(String email, String rawPassword)
+      throws EmailNotMatchedException, PasswordNotMatchedException {
 
     Optional<User> ou = userRepository.findOneByEmailIgnoreCase(email);
 
     if (ou.isPresent()) {
-      if (passwordEncoding.matches(rawPassword, ou.get().getPassword()))
-        return ou.get();
-      else
-        throw new PasswordNotMatchedException();
+      if (passwordEncoding.matches(rawPassword, ou.get().getPassword())) return ou.get();
+      else throw new PasswordNotMatchedException();
     } else {
       throw new EmailNotMatchedException();
     }

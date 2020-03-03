@@ -1,4 +1,3 @@
 package com.goal.restservice.domain;
 
-public class Note {
-}
+public class Note {}
