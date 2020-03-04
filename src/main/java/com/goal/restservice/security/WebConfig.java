@@ -10,8 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-  private static final String[] EXCLUDE_PATHS = {"/api/users", "/api/auth/login", "/error/**",
-      "/api/test/**", "/api/categories/**"};
+  private static final String[] EXCLUDE_PATHS = {
+      "/api/users", "/api/auth/login", "/error/**", "/api/test/**"
+  };
 
   private JwtInterceptor jwtInterceptor;
 

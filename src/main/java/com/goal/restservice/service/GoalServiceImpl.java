@@ -3,16 +3,15 @@ package com.goal.restservice.service;
 import com.goal.restservice.common.error.CategoryDoesNotExistException;
 import com.goal.restservice.domain.Category;
 import com.goal.restservice.domain.Goal;
-import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.GoalDto;
 import com.goal.restservice.repository.CategoryRepository;
 import com.goal.restservice.repository.GoalRepository;
 import com.goal.restservice.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
@@ -23,7 +22,8 @@ public class GoalServiceImpl implements GoalService {
   private final CategoryRepository categoryRepository;
   private final JwtServiceImpl jwtServiceImpl;
 
-  public GoalServiceImpl(GoalRepository goalRepository,
+  public GoalServiceImpl(
+      GoalRepository goalRepository,
       CategoryServiceImpl categoryServiceImpl,
       UserRepository userRepository,
       CategoryRepository categoryRepository,
@@ -75,9 +75,15 @@ public class GoalServiceImpl implements GoalService {
   @Override
   public GoalDto getGoalById(Long id) {
     Optional<Goal> optionalGoal = goalRepository.findById(id);
-    return optionalGoal.map(
-        goal -> GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
-            .desc(goal.getDesc()).build()).orElse(null);
+    return optionalGoal
+        .map(
+            goal ->
+                GoalDto.builder()
+                    .category(goal.getCategory().getName())
+                    .title(goal.getTitle())
+                    .desc(goal.getDesc())
+                    .build())
+        .orElse(null);
   }
 
   @Override

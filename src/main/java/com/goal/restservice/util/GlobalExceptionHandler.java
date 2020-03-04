@@ -4,6 +4,7 @@ import com.goal.restservice.common.error.CategoryDoesNotExistException;
 import com.goal.restservice.common.error.EmailAlreadyUsedException;
 import com.goal.restservice.common.error.GoalCreateFailException;
 import com.goal.restservice.common.error.GoalDoesNotExistException;
+import com.goal.restservice.common.error.EmailNotMatchedException;
 import com.goal.restservice.common.error.PasswordNotMatchedException;
 import com.goal.restservice.common.error.SubgoalCreateFailException;
 import com.goal.restservice.common.error.SubgoalDoesNotExistException;
@@ -66,6 +67,15 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(SubgoalCreateFailException.class)
   protected ResponseEntity<ErrorResponse> handleSubgoalCreateFailException(
       SubgoalCreateFailException e) {
+    log.info(e.getErrorCode().getMessage());
+
+    return new ResponseEntity<>(
+        new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
+
+  @ExceptionHandler(EmailNotMatchedException.class)
+  protected ResponseEntity<ErrorResponse> handleUserNameNotMatchedException(
+      EmailNotMatchedException e) {
     log.info(e.getErrorCode().getMessage());
 
     return new ResponseEntity<>(

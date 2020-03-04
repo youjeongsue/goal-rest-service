@@ -1,4 +1,3 @@
 package com.goal.restservice.repository;
 
-public class NoteRepository {
-}
+public class NoteRepository {}

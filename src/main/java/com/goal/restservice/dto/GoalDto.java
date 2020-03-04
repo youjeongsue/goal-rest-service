@@ -13,7 +13,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-// TODO: Add User to goalDto
 public class GoalDto {
 
   @NotBlank

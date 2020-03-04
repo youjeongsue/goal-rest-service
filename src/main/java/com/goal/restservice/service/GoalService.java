@@ -1,6 +1,7 @@
 package com.goal.restservice.service;
 
 import com.goal.restservice.dto.GoalDto;
+
 import java.util.List;
 
 public interface GoalService {

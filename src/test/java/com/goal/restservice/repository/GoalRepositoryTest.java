@@ -69,4 +69,3 @@ class GoalRepositoryTest {
     System.out.println(goal);
   }
 }
-

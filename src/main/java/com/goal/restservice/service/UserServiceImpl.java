@@ -1,7 +1,7 @@
 package com.goal.restservice.service;
 
-import com.goal.restservice.common.error.PasswordNotMatchedException;
 import com.goal.restservice.common.error.EmailNotMatchedException;
+import com.goal.restservice.common.error.PasswordNotMatchedException;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.repository.UserRepository;

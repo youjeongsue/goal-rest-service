@@ -1,7 +1,6 @@
 package com.goal.restservice.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.goal.restservice.common.error.EmailAlreadyUsedException;
 import com.goal.restservice.domain.User;
 import com.goal.restservice.security.JwtInterceptor;
 import com.goal.restservice.service.JwtService;
@@ -9,7 +8,6 @@ import com.goal.restservice.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +17,9 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/auth")
 public class UserJWTController {
 
+  @Autowired StringRedisTemplate redisTemplate;
   private JwtService jwtService;
   private UserServiceImpl userServiceImpl;
-
-  @Autowired StringRedisTemplate redisTemplate;
 
   public UserJWTController(JwtService jwtService, UserServiceImpl userServiceImpl) {
     this.jwtService = jwtService;
@@ -43,7 +40,6 @@ public class UserJWTController {
     String token = jwtService.createToken(loginUser);
 
     return ResponseEntity.ok().body(new JWTToken(token));
-
   }
 
   /**

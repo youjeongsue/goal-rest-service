@@ -37,4 +37,5 @@ public class CategoryController {
     return new ResponseEntity<List<GoalDto>>(categoryServiceImpl.getGoalsByCategory(name),
         HttpStatus.FOUND);
   }
+
 }

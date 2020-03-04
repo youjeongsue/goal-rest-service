@@ -58,7 +58,8 @@ class GoalControllerTest {
         .andDo(MockMvcResultHandlers.print());
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/categories/English"))
-            .andDo(MockMvcResultHandlers.print());
+        .andDo(MockMvcResultHandlers.print());
+
   }
 
   @Test
@@ -66,6 +67,7 @@ class GoalControllerTest {
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/goals/" + 1))
         .andDo(MockMvcResultHandlers.print());
+
   }
 
   @Test

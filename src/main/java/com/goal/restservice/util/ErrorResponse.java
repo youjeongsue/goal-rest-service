@@ -1,6 +1,5 @@
 package com.goal.restservice.util;
 
-
 import com.goal.restservice.common.errorcode.ErrorCode;
 import lombok.*;
 

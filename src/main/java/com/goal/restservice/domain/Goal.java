@@ -54,7 +54,7 @@ public class Goal extends BaseTimeEntity {
   public Goal(User user, Category category, String title, String desc, LocalDate dueDate) {
     this.user = user;
     this.category = category;
-    this.title= title;
+    this.title = title;
     this.desc = desc;
     this.dueDate = dueDate;
   }
@@ -64,7 +64,7 @@ public class Goal extends BaseTimeEntity {
       setCategory(category);
     }
     if (title != null) {
-      this.title= title;
+      this.title = title;
     }
     if (desc != null) {
       this.desc = desc;
