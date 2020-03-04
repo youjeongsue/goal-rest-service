@@ -33,7 +33,7 @@ class GoalRepositoryTest {
         .build();
     categoryRepository.save(category);
 
-    User user = User.builder().userName("user").password("pass").introduction("intro")
+    User user = User.builder().username("user").password("pass").introduction("intro")
         .email("email@hi.com").firstName("first")
         .lastName("last").imageUrl("url").build();
     user = userRepository.save(user);

@@ -8,7 +8,7 @@ public interface UserService {
 
   UserDTO getUserById(Long id);
 
-  UserDTO getUserByUserName(String userName);
+  UserDTO getUserByUsername(String username);
 
   void updateUser(User user);
 
@@ -16,5 +16,5 @@ public interface UserService {
 
   boolean isEmailAlreadyUsed(String email);
 
-  boolean isUserNameAlreadyUsed(String userName);
+  boolean isUsernameAlreadyUsed(String username);
 }

@@ -34,7 +34,7 @@ class GoalControllerTest {
             .content(objectMapper.writeValueAsString(categoryDto)))
         .andDo(MockMvcResultHandlers.print());
 
-    UserDTO userDTO = UserDTO.builder().userName("name").email("email@a.com").firstName("first")
+    UserDTO userDTO = UserDTO.builder().username("name").email("email@a.com").firstName("first")
         .lastName("last").imageUrl("i.com").introduction("hi").password("pass").build();
 
     mockMvc.perform(

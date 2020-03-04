@@ -32,7 +32,7 @@ class FollowServiceImplTest {
       userRepository.save(
           User.builder()
               .email("demonic" + i + "@naver.com")
-              .userName(DUMMY + i)
+              .username(DUMMY + i)
               .password("12345")
               .firstName("human" + i)
               .lastName("last")
@@ -46,15 +46,15 @@ class FollowServiceImplTest {
   public void 나의_팔로워_조회() {
 
     // given
-    User star = userRepository.findOneByUserNameIgnoreCase(DUMMY + 0).orElse(null);
+    User star = userRepository.findOneByUsernameIgnoreCase(DUMMY + 0).orElse(null);
     Assertions.assertNotNull(star);
 
     for (int i = 1; i <= 3; i++) {
-      User fan = userRepository.findOneByUserNameIgnoreCase(DUMMY + i).orElse(null);
+      User fan = userRepository.findOneByUsernameIgnoreCase(DUMMY + i).orElse(null);
       Assertions.assertNotNull(fan);
 
       followServiceImpl.userIdFollowUserDTO(
-          fan.getId(), UserDTO.builder().userName(star.getUserName()).build());
+          fan.getId(), UserDTO.builder().username(star.getUsername()).build());
     }
     Assertions.assertEquals(followRepository.count(), 3);
 
@@ -65,7 +65,7 @@ class FollowServiceImplTest {
     Assertions.assertEquals(3, followerList.size());
 
     for (int i = 1; i <= 3; i++) {
-      Assertions.assertEquals(followerList.get(i - 1).getUserName(), DUMMY + i);
+      Assertions.assertEquals(followerList.get(i - 1).getUsername(), DUMMY + i);
       Assertions.assertEquals(followerList.get(i - 1).getFirstName(), "human" + i);
     }
   }
@@ -73,15 +73,15 @@ class FollowServiceImplTest {
   @Test
   public void 내가_팔로워_중인_유저_조회() {
     // given
-    User fan = userRepository.findOneByUserNameIgnoreCase(DUMMY + 0).orElse(null);
+    User fan = userRepository.findOneByUsernameIgnoreCase(DUMMY + 0).orElse(null);
     Assertions.assertNotNull(fan);
 
     for (int i = 1; i <= 3; i++) {
-      User star = userRepository.findOneByUserNameIgnoreCase(DUMMY + i).orElse(null);
+      User star = userRepository.findOneByUsernameIgnoreCase(DUMMY + i).orElse(null);
       Assertions.assertNotNull(star);
 
       followServiceImpl.userIdFollowUserDTO(
-          fan.getId(), UserDTO.builder().userName(star.getUserName()).build());
+          fan.getId(), UserDTO.builder().username(star.getUsername()).build());
     }
     Assertions.assertEquals(followRepository.count(), 3);
 
@@ -95,26 +95,26 @@ class FollowServiceImplTest {
   @Test
   public void 언팔로우() {
     // given
-    User fan = userRepository.findOneByUserNameIgnoreCase(DUMMY + 0).orElse(null);
+    User fan = userRepository.findOneByUsernameIgnoreCase(DUMMY + 0).orElse(null);
     Assertions.assertNotNull(fan);
 
     for (int i = 1; i <= 3; i++) {
-      User star = userRepository.findOneByUserNameIgnoreCase(DUMMY + i).orElse(null);
+      User star = userRepository.findOneByUsernameIgnoreCase(DUMMY + i).orElse(null);
       Assertions.assertNotNull(star);
 
       followServiceImpl.userIdFollowUserDTO(
-          star.getId(), UserDTO.builder().userName(fan.getUserName()).build());
+          star.getId(), UserDTO.builder().username(fan.getUsername()).build());
     }
     Assertions.assertEquals(followRepository.count(), 3);
 
     // when
-    User notInterestingAnyMore = userRepository.findOneByUserNameIgnoreCase(DUMMY + 1).orElse(null);
+    User notInterestingAnyMore = userRepository.findOneByUsernameIgnoreCase(DUMMY + 1).orElse(null);
 
     List<UserDTO> followerList = followServiceImpl.getAllFollower(notInterestingAnyMore.getId());
     Assertions.assertEquals(1, followerList.size());
 
     followServiceImpl.unfollow(
-        fan.getId(), UserDTO.builder().userName(notInterestingAnyMore.getUserName()).build());
+        fan.getId(), UserDTO.builder().username(notInterestingAnyMore.getUsername()).build());
 
     // then
     List<UserDTO> emptyFollowerList =
@@ -128,14 +128,14 @@ class FollowServiceImplTest {
   @Test
   public void 팔루워_추가() {
     // given
-    User star = userRepository.findOneByUserNameIgnoreCase(DUMMY + 0).orElse(null);
+    User star = userRepository.findOneByUsernameIgnoreCase(DUMMY + 0).orElse(null);
 
     // when
     for (int i = 1; i <= 3; i++) {
-      User fan = userRepository.findOneByUserNameIgnoreCase(DUMMY + i).orElse(null);
+      User fan = userRepository.findOneByUsernameIgnoreCase(DUMMY + i).orElse(null);
       assert fan != null;
       followServiceImpl.userIdFollowUserDTO(
-          fan.getId(), UserDTO.builder().userName(fan.getUserName()).build());
+          fan.getId(), UserDTO.builder().username(fan.getUsername()).build());
     }
 
     // then

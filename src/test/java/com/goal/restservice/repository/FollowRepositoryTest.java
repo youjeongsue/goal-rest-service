@@ -38,7 +38,7 @@ class FollowRepositoryTest {
       userRepository.save(
           User.builder()
               .email("demonic" + i + "@naver.com")
-              .userName(mameList[i])
+              .username(mameList[i])
               .password("12345")
               .firstName("human" + i)
               .lastName("last")
@@ -53,7 +53,7 @@ class FollowRepositoryTest {
   public void 케스케이드_확인() {
     makeThreeFollower();
 
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master1");
     User master = optionalUser.orElse(null);
 
     // 현재 follow 3개
@@ -73,10 +73,10 @@ class FollowRepositoryTest {
 
     makeThreeFollower();
 
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master1");
     User master = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave3");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave3");
     User slave3 = optionalUser.orElse(null);
 
     // unfollow
@@ -88,7 +88,7 @@ class FollowRepositoryTest {
 
     int i = 1;
     for (Follow f : followList) {
-      Assertions.assertEquals(f.getSlave().getUserName(), "slave" + (i++));
+      Assertions.assertEquals(f.getSlave().getUsername(), "slave" + (i++));
     }
   }
 
@@ -96,11 +96,11 @@ class FollowRepositoryTest {
   public void 자신의_모든_팔로워_조회() {
 
     // One master is following by three slaves.
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master1");
     User master = optionalUser.orElse(null);
 
     for (int i = 3; i <= 5; i++) {
-      optionalUser = userRepository.findOneByUserNameIgnoreCase(mameList[i]);
+      optionalUser = userRepository.findOneByUsernameIgnoreCase(mameList[i]);
       User slave = optionalUser.orElse(null);
       followRepository.save(Follow.builder().master(master).slave(slave).build());
     }
@@ -113,17 +113,17 @@ class FollowRepositoryTest {
 
     int i = 3;
     for (Follow f : followList) {
-      System.out.println(f.getSlave().getUserName());
-      Assertions.assertEquals(f.getSlave().getUserName(), mameList[i++]);
+      System.out.println(f.getSlave().getUsername());
+      Assertions.assertEquals(f.getSlave().getUsername(), mameList[i++]);
     }
   }
 
   @Test
   public void 관계_타임스탬프() throws Exception {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master2");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master2");
     User master = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave2");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave2");
     User slave = optionalUser.orElse(null);
 
     followRepository.save(Follow.builder().master(master).slave(slave).build());
@@ -138,10 +138,10 @@ class FollowRepositoryTest {
   /** Test for UNIQUE CONSTRAINTS */
   @Test
   public void 팔로우_팔로워_중복_저장() {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master2");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master2");
     User master = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave2");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave2");
     User slave = optionalUser.orElse(null);
 
     followRepository.save(Follow.builder().master(master).slave(slave).build());
@@ -168,11 +168,11 @@ class FollowRepositoryTest {
   public void 자신이_팔로잉하는_모든_유저_조회() {
 
     // One master is following by three slaves.
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("slave1");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("slave1");
     User slave = optionalUser.orElse(null);
 
     for (int i = 0; i <= 2; i++) {
-      optionalUser = userRepository.findOneByUserNameIgnoreCase(mameList[i]);
+      optionalUser = userRepository.findOneByUsernameIgnoreCase(mameList[i]);
       User master = optionalUser.orElse(null);
       followRepository.save(Follow.builder().master(master).slave(slave).build());
     }
@@ -188,8 +188,8 @@ class FollowRepositoryTest {
 
     int i = 0;
     for (Follow f : followList) {
-      System.out.println(f.getMaster().getUserName());
-      Assertions.assertEquals(f.getMaster().getUserName(), mameList[i++]);
+      System.out.println(f.getMaster().getUsername());
+      Assertions.assertEquals(f.getMaster().getUsername(), mameList[i++]);
     }
   }
 
@@ -197,13 +197,13 @@ class FollowRepositoryTest {
   public void 관계_생성확인() {
 
     // Make a relationship
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master1");
     User master = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave1");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave1");
     User slave1 = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave2");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave2");
     User slave2 = optionalUser.orElse(null);
 
     // SAVE!!
@@ -227,16 +227,16 @@ class FollowRepositoryTest {
   }
 
   private void makeThreeFollower() {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase("master1");
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase("master1");
     User master = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave1");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave1");
     User slave = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave2");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave2");
     User slave2 = optionalUser.orElse(null);
 
-    optionalUser = userRepository.findOneByUserNameIgnoreCase("slave3");
+    optionalUser = userRepository.findOneByUsernameIgnoreCase("slave3");
     User slave3 = optionalUser.orElse(null);
 
     followRepository.save(Follow.builder().master(master).slave(slave).build());

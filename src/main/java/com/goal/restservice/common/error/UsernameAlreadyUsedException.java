@@ -2,13 +2,13 @@ package com.goal.restservice.common.error;
 
 import com.goal.restservice.common.errorcode.ErrorCode;
 
-public class UserNameAlreadyUsedException extends RuntimeException {
+public class UsernameAlreadyUsedException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
   ErrorCode errorCode;
 
-  public UserNameAlreadyUsedException() {
+  public UsernameAlreadyUsedException() {
     this.errorCode = ErrorCode.USER_DUPLICATION;
   }
 

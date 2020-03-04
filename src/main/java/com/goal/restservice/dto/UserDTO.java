@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
@@ -15,7 +16,7 @@ public class UserDTO {
 
   private String password;
 
-  private String userName;
+  private String username;
 
   private String firstName;
 
@@ -28,7 +29,7 @@ public class UserDTO {
   @Builder(builderClassName = "ByFollowerBuilder", builderMethodName = "ByFollowerBuilder")
   public UserDTO(User user) {
     this.email = user.getEmail();
-    this.userName = user.getUserName();
+    this.username = user.getUsername();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
     this.imageUrl = user.getImageUrl();

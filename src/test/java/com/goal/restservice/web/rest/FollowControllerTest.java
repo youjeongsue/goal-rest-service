@@ -48,7 +48,7 @@ class FollowControllerTest {
       User dummyUser =
           User.builder()
               .email(userMail + i)
-              .userName(username + i)
+              .username(username + i)
               .firstName("first")
               .lastName("last")
               .password(userPassword)
@@ -84,7 +84,7 @@ class FollowControllerTest {
       User dummyUser =
           User.builder()
               .email(slaveMail + i)
-              .userName(slaveName + i)
+              .username(slaveName + i)
               .firstName("first")
               .lastName("last")
               .password(userPassword)
@@ -137,7 +137,7 @@ class FollowControllerTest {
                       .header("Authorization", "Bearer " + slaveTokens[i])
                       .contentType(APPLICATION_JSON_UTF8)
                       .content(
-                          objectMapper.writeValueAsString(User.builder().userName(singer).build())))
+                          objectMapper.writeValueAsString(User.builder().username(singer).build())))
               .andExpect(status().isCreated())
               .andReturn();
     }
@@ -170,7 +170,7 @@ class FollowControllerTest {
                       .contentType(APPLICATION_JSON_UTF8)
                       .content(
                           objectMapper.writeValueAsString(
-                              User.builder().userName("dummy" + 0).build())))
+                              User.builder().username("dummy" + 0).build())))
               .andExpect(status().isCreated())
               .andReturn();
     }
@@ -229,7 +229,7 @@ class FollowControllerTest {
                       .contentType(APPLICATION_JSON_UTF8)
                       .content(
                           objectMapper.writeValueAsString(
-                              User.builder().userName("dummy" + i).build())))
+                              User.builder().username("dummy" + i).build())))
               .andExpect(status().isCreated())
               .andReturn();
     }

@@ -29,7 +29,7 @@ class UserJWTControllerTest {
     User user =
         User.builder()
             .email("test@naver.com")
-            .userName("jsom")
+            .username("jsom")
             .password("12345")
             //                .activated(false)
             .build();

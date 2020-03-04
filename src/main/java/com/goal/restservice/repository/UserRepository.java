@@ -9,7 +9,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findOneByEmailIgnoreCase(String email);
 
-  Optional<User> findOneByUserNameIgnoreCase(String userName);
+  Optional<User> findOneByUsernameIgnoreCase(String username);
 
   //    @Modifying
   //    @Query("update User u set u.name = ?1, u.password = ?2 where u.id = ?3")

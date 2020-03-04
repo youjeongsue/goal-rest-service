@@ -19,7 +19,7 @@ class UserRepositoryTest {
     userRepository.save(
         User.builder()
             .email("demoni@naver.com")
-            .userName("hello")
+            .username("hello")
             .password("12345")
             .firstName("first")
             .lastName("last")
@@ -29,7 +29,7 @@ class UserRepositoryTest {
     userRepository.save(
         User.builder()
             .email("demoni@naver.com")
-            .userName("hello")
+            .username("hello")
             .password("12345")
             .firstName("first")
             .lastName("last")
