@@ -90,4 +90,8 @@ public class Goal extends BaseTimeEntity {
     subGoal.setGoal(this);
     this.subgoals.add(subGoal);
   }
+
+  public Long getId() {
+    return id;
+  }
 }

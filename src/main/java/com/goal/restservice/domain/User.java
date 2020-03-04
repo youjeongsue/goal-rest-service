@@ -1,11 +1,13 @@
 package com.goal.restservice.domain;
 
+import java.util.List;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @NoArgsConstructor(
@@ -23,21 +25,29 @@ public class User extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Email private String email;
+  @Email
+  private String email;
 
-  @NotNull private String password;
+  @NotNull
+  private String password;
 
-  @NotNull private String userName;
+  @NotNull
+  private String userName;
 
-  @NotNull private String firstName;
+  @NotNull
+  private String firstName;
 
-  @NotNull private String lastName;
+  @NotNull
+  private String lastName;
 
   @Size(max = 256)
   @Column(name = "image_url", length = 256)
   private String imageUrl;
 
   private String introduction;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<Goal> goals;
 
   //  @OneToMany(mappedBy = "master", cascade = CascadeType.REMOVE)     // 실제 디비 스키마에는 영향이 없다. -
   // 무시된다.

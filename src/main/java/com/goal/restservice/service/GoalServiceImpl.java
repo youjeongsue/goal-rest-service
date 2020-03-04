@@ -58,14 +58,15 @@ public class GoalServiceImpl implements GoalService {
   }
 
   @Override
-  public List<GoalDto> getGoalsByUserId(Long id) {
+  public List<GoalDto> getMyGoals(Long id) {
     List<Goal> goals = goalRepository.findByUserIdOrderByModifiedDateDesc(id);
-//    Optional<List<Goal>> goals = goalRepository.findByUserIdOrderByModifiedDateDesc(id);
     List<GoalDto> goalDtos = new ArrayList<GoalDto>();
+
     for (Goal goal : goals) {
       if (goal != null) {
         goalDtos.add(
-            GoalDto.builder().category(goal.getTitle()).title(goal.getTitle()).desc(goal.getDesc())
+            GoalDto.builder().goalId(goal.getId()).category(goal.getTitle()).title(goal.getTitle())
+                .desc(goal.getDesc())
                 .build());
       }
     }
@@ -79,6 +80,7 @@ public class GoalServiceImpl implements GoalService {
         .map(
             goal ->
                 GoalDto.builder()
+                    .goalId(goal.getId())
                     .category(goal.getCategory().getName())
                     .title(goal.getTitle())
                     .desc(goal.getDesc())

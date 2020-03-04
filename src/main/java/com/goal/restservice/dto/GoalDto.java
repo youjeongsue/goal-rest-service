@@ -15,6 +15,8 @@ import lombok.ToString;
 @ToString
 public class GoalDto {
 
+  private Long goalId;
+
   @NotBlank
   @Size(min = 1, max = 50)
   private String title;
@@ -29,11 +31,13 @@ public class GoalDto {
   private LocalDate dueDate;
 
   @Builder
-  public GoalDto(String title, String desc, Long userId, String category, LocalDate dueDate) {
+  public GoalDto(Long goalId, String title, String desc, Long userId, String category, LocalDate dueDate) {
+    this.goalId = goalId;
     this.title = title;
     this.desc = desc;
     this.userId = userId;
     this.category = category;
     this.dueDate = dueDate;
   }
+
 }
