@@ -36,7 +36,6 @@ public class UserController {
   @PostMapping
   private ResponseEntity<String> createUser(@RequestBody @Valid UserDTO userDTO) {
 
-    System.out.println(userDTO);
     if (userServiceImpl.isEmailAlreadyUsed(userDTO.getEmail())) {
       throw new EmailAlreadyUsedException();
 

@@ -33,7 +33,7 @@ public class CategoryController {
   }
 
   @GetMapping("/{name}")
-  public ResponseEntity<List<GoalDto>> findGoalsByCategory(@PathVariable String name) {
+  public ResponseEntity<List<GoalDto>> findGoalsByCategory(@PathVariable java.lang.String name) {
     return new ResponseEntity<List<GoalDto>>(categoryServiceImpl.getGoalsByCategory(name),
         HttpStatus.FOUND);
   }

@@ -2,7 +2,6 @@ package com.goal.restservice.service;
 
 import com.goal.restservice.dto.CategoryDto;
 import com.goal.restservice.dto.GoalDto;
-import com.goal.restservice.domain.Category;
 import java.util.List;
 
 public interface CategoryService {
@@ -11,8 +10,8 @@ public interface CategoryService {
 
   List<CategoryDto> findAll();
 
-  CategoryDto getCategoryByName(String name);
+  CategoryDto getCategoryByName(java.lang.String name);
 
-  List<GoalDto> getGoalsByCategory(String category);
+  List<GoalDto> getGoalsByCategory(java.lang.String category);
 //  Category findByName(String name);
 }

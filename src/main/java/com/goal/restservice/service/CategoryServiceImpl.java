@@ -42,21 +42,19 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public CategoryDto getCategoryByName(String name) {
+  public CategoryDto getCategoryByName(java.lang.String name) {
     Category category = categoryRepository.findByName(name);
     categoryRepository.save(category);
     return CategoryDto.builder().name(category.getName()).build();
   }
 
   @Override
-  public List<GoalDto> getGoalsByCategory(String category) {
+  public List<GoalDto> getGoalsByCategory(java.lang.String category) {
     List<Goal> goals = categoryRepository.findByName(category).getGoals();
     List<GoalDto> goalDtos = new ArrayList<>();
     for (Goal g : goals) {
       if (g != null) {
-        goalDtos.add(
-            GoalDto.builder().title(g.getTitle()).category(g.getCategory().getName())
-                .desc(g.getDesc()).userId(g.getId()).dueDate(g.getDueDate()).build());
+        goalDtos.add(new GoalDto(g));
       }
     }
     return goalDtos;

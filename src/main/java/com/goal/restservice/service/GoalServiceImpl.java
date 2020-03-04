@@ -24,7 +24,6 @@ public class GoalServiceImpl implements GoalService {
 
   public GoalServiceImpl(
       GoalRepository goalRepository,
-      CategoryServiceImpl categoryServiceImpl,
       UserRepository userRepository,
       CategoryRepository categoryRepository,
       JwtServiceImpl jwtServiceImpl) {
@@ -35,7 +34,7 @@ public class GoalServiceImpl implements GoalService {
   }
 
   @Override
-  public GoalDto createGoal(GoalDto goalDto) {
+  public String createGoal(GoalDto goalDto) {
 
     Category category = categoryRepository.findByName(goalDto.getCategory());
 
@@ -51,10 +50,7 @@ public class GoalServiceImpl implements GoalService {
 
     category.addGoal(goal);
 
-    return GoalDto.builder().category(goalDto.getCategory()).title(goal.getTitle())
-        .desc(goal.getDesc())
-        .userId(jwtServiceImpl.getUserId())
-        .build();
+    return "success";
   }
 
   @Override
@@ -64,10 +60,7 @@ public class GoalServiceImpl implements GoalService {
 
     for (Goal goal : goals) {
       if (goal != null) {
-        goalDtos.add(
-            GoalDto.builder().goalId(goal.getId()).category(goal.getTitle()).title(goal.getTitle())
-                .desc(goal.getDesc())
-                .build());
+        goalDtos.add(new GoalDto(goal));
       }
     }
     return goalDtos;
@@ -77,14 +70,7 @@ public class GoalServiceImpl implements GoalService {
   public GoalDto getGoalById(Long id) {
     Optional<Goal> optionalGoal = goalRepository.findById(id);
     return optionalGoal
-        .map(
-            goal ->
-                GoalDto.builder()
-                    .goalId(goal.getId())
-                    .category(goal.getCategory().getName())
-                    .title(goal.getTitle())
-                    .desc(goal.getDesc())
-                    .build())
+        .map(GoalDto::new)
         .orElse(null);
   }
 
@@ -99,9 +85,7 @@ public class GoalServiceImpl implements GoalService {
 
     goal = goalRepository.save(goal);
 
-    return GoalDto.builder().category(goal.getCategory().getName()).title(goal.getTitle())
-        .desc(goal.getDesc())
-        .build();
+    return new GoalDto(goal);
 
   }
 

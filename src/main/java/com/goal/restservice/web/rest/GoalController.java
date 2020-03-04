@@ -2,8 +2,6 @@ package com.goal.restservice.web.rest;
 
 import com.goal.restservice.common.error.GoalCreateFailException;
 import com.goal.restservice.common.error.GoalDoesNotExistException;
-import com.goal.restservice.common.error.TokenDoesNotExistException;
-import com.goal.restservice.common.error.UnauthorizedException;
 import com.goal.restservice.dto.GoalDto;
 import com.goal.restservice.service.GoalServiceImpl;
 import com.goal.restservice.service.JwtServiceImpl;
@@ -33,13 +31,13 @@ public class GoalController {
   }
 
   @PostMapping
-  public ResponseEntity<GoalDto> createGoal(@RequestBody GoalDto goal) {
-    GoalDto newGoal = goalServiceImpl.createGoal(goal);
+  public ResponseEntity<String> createGoal(@RequestBody GoalDto goalDto) {
+    String ret = goalServiceImpl.createGoal(goalDto);
 
-    if (newGoal == null) {
+    if (ret != "success") {
       throw new GoalCreateFailException();
     }
-    return new ResponseEntity<GoalDto>(newGoal, HttpStatus.CREATED);
+    return new ResponseEntity<String>("success", HttpStatus.CREATED);
 
   }
 

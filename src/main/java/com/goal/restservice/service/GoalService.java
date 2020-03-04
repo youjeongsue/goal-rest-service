@@ -1,12 +1,11 @@
 package com.goal.restservice.service;
 
 import com.goal.restservice.dto.GoalDto;
-
 import java.util.List;
 
 public interface GoalService {
 
-  GoalDto createGoal(GoalDto goalDto);
+  String createGoal(GoalDto goalDto);
 
   List<GoalDto> getMyGoals(Long id);
 
