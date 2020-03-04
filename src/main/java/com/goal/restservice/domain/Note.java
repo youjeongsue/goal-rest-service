@@ -1,5 +1,6 @@
 package com.goal.restservice.domain;
 
+import com.goal.restservice.dto.NoteDTO;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@ToString
 public class Note extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

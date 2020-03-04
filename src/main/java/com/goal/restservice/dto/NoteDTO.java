@@ -1,6 +1,7 @@
 package com.goal.restservice.dto;
 
 import com.goal.restservice.domain.Goal;
+import com.goal.restservice.domain.Note;
 import com.goal.restservice.domain.User;
 import lombok.*;
 

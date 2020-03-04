@@ -38,7 +38,6 @@ public class NoteServiceImpl implements NoteService {
                 .contents(noteDTO.getContents())
                 .rating(noteDTO.getRating())
                 .build();
-        //TODO: check if this is ok...
         note.setId(noteDTO.getId());
         return note;
     }
