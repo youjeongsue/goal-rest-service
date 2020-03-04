@@ -2,16 +2,12 @@ package com.goal.restservice.web.rest;
 
 import com.goal.restservice.common.error.EmailAlreadyUsedException;
 import com.goal.restservice.common.error.UserNameAlreadyUsedException;
-import com.goal.restservice.common.errorcode.ErrorCode;
-import com.goal.restservice.domain.User;
+import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.service.JwtServiceImpl;
 import com.goal.restservice.service.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import com.goal.restservice.dto.UserDTO;
 
 import javax.validation.Valid;
 
@@ -77,7 +73,6 @@ public class UserController {
   @GetMapping("/profile")
   private ResponseEntity<UserDTO> readUserProfile(@RequestParam("username") String userName) {
     UserDTO user = userServiceImpl.getUserByUserName(userName);
-
 
     if (user == null) return new ResponseEntity<UserDTO>(HttpStatus.NO_CONTENT);
 
