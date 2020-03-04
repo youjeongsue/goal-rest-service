@@ -33,14 +33,15 @@ public class Goal extends BaseTimeEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "goal_id")
+  @JoinColumn(name = "category_id")
   private Category category;
+
+  private String title;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;
 
-  private String title;
   private String desc;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -15,6 +15,7 @@ public enum ErrorCode {
   GOAL_CREATE_FAIL(400, "M006", "Creating goal failed"),
   SUBGOAL_CREATE_FAIL(400, "M007", "Creating subgoal failed"),
   SUBGOAL_DOES_NOT_EXIST(400, "M008", "subgoal does not exist"),
+  CATEGORY_DOES_NOT_EXIST(400, "M009", "category does not exist"),
   ;
 
   private final String code;

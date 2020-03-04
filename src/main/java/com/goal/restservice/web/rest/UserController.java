@@ -38,7 +38,7 @@ public class UserController {
    * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
    */
   @PostMapping
-  private ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
+  private ResponseEntity<String> createUser(@RequestBody @Valid UserDTO userDTO) {
 
     if (userServiceImpl.isEmailAlreadyUsed(userDTO.getEmail())) {
       throw new EmailAlreadyUsedException();
@@ -48,7 +48,8 @@ public class UserController {
     }
 
     UserDTO newUser = userServiceImpl.createUser(userDTO);
-    return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    // TODO: return email address ?
+    return new ResponseEntity<>("success", HttpStatus.CREATED);
   }
 
   /**

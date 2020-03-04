@@ -1,5 +1,6 @@
 package com.goal.restservice.util;
 
+import com.goal.restservice.common.error.CategoryDoesNotExistException;
 import com.goal.restservice.common.error.EmailAlreadyUsedException;
 import com.goal.restservice.common.error.GoalCreateFailException;
 import com.goal.restservice.common.error.GoalDoesNotExistException;
@@ -74,6 +75,15 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(SubgoalDoesNotExistException.class)
   protected ResponseEntity<ErrorResponse> handleSubgoalDoesNotExistException(
       SubgoalDoesNotExistException e) {
+    log.info(e.getErrorCode().getMessage());
+
+    return new ResponseEntity<>(
+        new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
+
+  @ExceptionHandler(CategoryDoesNotExistException.class)
+  protected ResponseEntity<ErrorResponse> handleCategoryDoesNotExistException(
+      CategoryDoesNotExistException e) {
     log.info(e.getErrorCode().getMessage());
 
     return new ResponseEntity<>(

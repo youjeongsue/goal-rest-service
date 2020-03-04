@@ -5,23 +5,9 @@ POST localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test2@test.com",
   "password": "pass",
-  "userName": "userTest",
-  "firstName": "Jiwon",
-  "lastName": "Jeon",
-  "imageUrl": "url",
-  "introduction": "intro"
-}
-
-###
-POST localhost:8080/api/users
-Content-Type: application/json
-
-{
-  "email": "test@test.com",
-  "password": "pass",
-  "userName": "userTest",
+  "userName": "userTest2",
   "firstName": "Jiwon",
   "lastName": "Jeon",
   "imageUrl": "url",

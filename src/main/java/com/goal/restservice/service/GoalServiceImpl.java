@@ -1,5 +1,6 @@
 package com.goal.restservice.service;
 
+import com.goal.restservice.common.error.CategoryDoesNotExistException;
 import com.goal.restservice.domain.Category;
 import com.goal.restservice.domain.Goal;
 import com.goal.restservice.domain.User;
@@ -20,32 +21,39 @@ public class GoalServiceImpl implements GoalService {
   private final GoalRepository goalRepository;
   private final UserRepository userRepository;
   private final CategoryRepository categoryRepository;
+  private final JwtServiceImpl jwtServiceImpl;
 
   public GoalServiceImpl(GoalRepository goalRepository,
       CategoryServiceImpl categoryServiceImpl,
       UserRepository userRepository,
-      CategoryRepository categoryRepository) {
+      CategoryRepository categoryRepository,
+      JwtServiceImpl jwtServiceImpl) {
     this.goalRepository = goalRepository;
     this.userRepository = userRepository;
     this.categoryRepository = categoryRepository;
+    this.jwtServiceImpl = jwtServiceImpl;
   }
 
   @Override
   public GoalDto createGoal(GoalDto goalDto) {
 
-    // TODO: Find user by token ID?
-    User user = userRepository.getOne(goalDto.getUserId());
-    // TODO: Throw error if category is null
     Category category = categoryRepository.findByName(goalDto.getCategory());
+
+    if (category == null) {
+      throw new CategoryDoesNotExistException();
+    }
+
     Goal goal = goalRepository
         .save(Goal.builder().category(categoryRepository.findByName(goalDto.getCategory()))
-            .title(goalDto.getTitle()).user(user).desc(goalDto.getDesc()).build());
+            .title(goalDto.getTitle()).user(userRepository.getOne(jwtServiceImpl.getUserId()))
+            .desc(goalDto.getDesc()).dueDate(goalDto.getDueDate())
+            .build());
 
     category.addGoal(goal);
 
     return GoalDto.builder().category(goalDto.getCategory()).title(goal.getTitle())
         .desc(goal.getDesc())
-        .userId(user.getId())
+        .userId(jwtServiceImpl.getUserId())
         .build();
   }
 
