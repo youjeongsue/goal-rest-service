@@ -15,7 +15,7 @@ token
 ### Git commit convention
 Use present tense commit
 
-ex) Add object foo, add object foo
+ex) Add object foo
 
 Commit often, include single change
 
