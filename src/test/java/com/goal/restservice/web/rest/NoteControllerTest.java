@@ -1,4 +1,3 @@
 package com.goal.restservice.web.rest;
 
-public class NoteControllerTest {
-}
+public class NoteControllerTest {}

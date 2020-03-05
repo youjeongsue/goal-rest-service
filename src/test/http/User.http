@@ -1,0 +1,17 @@
+POST localhost:8080/api/users/profile/wldnjs
+
+###
+POST localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "email": "test2@test.com",
+  "password": "pass",
+  "userName": "userTest2",
+  "firstName": "Jiwon",
+  "lastName": "Jeon",
+  "imageUrl": "url",
+  "introduction": "intro"
+}
+
+###
