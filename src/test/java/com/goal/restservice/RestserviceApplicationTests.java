@@ -7,5 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class RestserviceApplicationTests {
 
   @Test
-  void contextLoads() {}
+  void contextLoads() {
+  }
+
 }
