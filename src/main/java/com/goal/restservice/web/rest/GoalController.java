@@ -34,7 +34,7 @@ public class GoalController {
   public ResponseEntity<String> createGoal(@RequestBody GoalDto goalDto) {
     String ret = goalServiceImpl.createGoal(goalDto);
 
-    if (ret != "success") {
+    if (ret.equals("success")) {
       throw new GoalCreateFailException();
     }
     return new ResponseEntity<String>("success", HttpStatus.CREATED);
@@ -69,6 +69,7 @@ public class GoalController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteGoal(@PathVariable long id) {
+
     return goalServiceImpl.deleteGoal(id)
         ? new ResponseEntity<>(HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

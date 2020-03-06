@@ -16,8 +16,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-class GoalControllerTest {
-
   @Autowired
   private MockMvc mockMvc;
   @Autowired
