@@ -35,7 +35,7 @@ public class FollowServiceImpl implements FollowService {
   @Override
   public void userIdFollowUserDTO(Long userId, UserDTO userDTO) {
     Optional<User> slaveUser = userRepository.findById(userId);
-    Optional<User> masterUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
+    Optional<User> masterUser = userRepository.findOneByUsernameIgnoreCase(userDTO.getUsername());
     List<Follow> followList = followRepository.findAll();
 
     if (slaveUser.isPresent() && masterUser.isPresent()) {
@@ -71,7 +71,7 @@ public class FollowServiceImpl implements FollowService {
    */
   @Override
   public List<UserDTO> getAllFollower(String username) {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(username);
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase(username);
     List<Follow> followList;
 
     if (optionalUser.isPresent())
@@ -107,7 +107,7 @@ public class FollowServiceImpl implements FollowService {
 
   @Override
   public List<UserDTO> getAllFollowed(String username) {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(username);
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase(username);
     List<Follow> followedList;
 
     if (optionalUser.isPresent())
@@ -132,7 +132,7 @@ public class FollowServiceImpl implements FollowService {
   @Override
   @Transactional
   public void unfollow(Long userId, UserDTO userDTO) {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(userDTO.getUserName());
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase(userDTO.getUsername());
     User oneThatNotAttractive = optionalUser.orElse(null);
 
     followRepository.deleteFollowing(userId, oneThatNotAttractive.getId());

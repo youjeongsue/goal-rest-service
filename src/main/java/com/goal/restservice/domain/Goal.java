@@ -5,42 +5,105 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
-import lombok.*;
-
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import javax.persistence.*;
-import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+//@ToString(exclude = {"category"})
+@ToString
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = {"id", "title"}, callSuper = false)
 public class Goal extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne @JoinColumn private Category category;
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
+
+  private String title;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;
 
-  private String title;
   private String desc;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate dueDate;
 
   //note와 관계 설정
   @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Note> notes = new ArrayList<>();
 
-  public void addNote(Note note){
+  public void addNote(Note note) {
     note.setGoal(this);
     this.notes.add(note);
+  }
+
+  @OneToMany(mappedBy = "goal")
+  private List<Subgoal> subgoals;
+
+  @Builder
+  public Goal(User user, Category category, String title, String desc, LocalDate dueDate) {
+    this.user = user;
+    this.category = category;
+    this.title = title;
+    this.desc = desc;
+    this.dueDate = dueDate;
+  }
+
+  public void updateGoal(Category category, String title, String desc, LocalDate dueDate) {
+    if (category != null) {
+      setCategory(category);
+    }
+    if (title != null) {
+      this.title = title;
+    }
+    if (desc != null) {
+      this.desc = desc;
+    }
+    if (dueDate != null) {
+      this.dueDate = dueDate;
+    }
+  }
+
+  public void setCategory(Category category) {
+    if (this.category != null && this.category.getGoals() != null) {
+      this.category.getGoals().remove(this);
+    }
+
+    this.category = category;
+
+    if (category != null) {
+      category.getGoals().add(this);
+    }
+  }
+
+  public void addSubGoal(Subgoal subGoal) {
+    subGoal.setGoal(this);
+    this.subgoals.add(subGoal);
+  }
+
+  public Long getId() {
+    return id;
   }
 }

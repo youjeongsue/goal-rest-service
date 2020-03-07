@@ -37,7 +37,7 @@ public class UserControllerTest {
     User user =
         User.builder()
             .email("test@naver.com")
-            .userName("jsom")
+            .username("jsom")
             .firstName("first")
             .lastName("last")
             .password("12345")
@@ -63,7 +63,7 @@ public class UserControllerTest {
     User user =
         User.builder()
             .email("test@naver.com")
-            .userName("json")
+            .username("json")
             .firstName("first")
             .lastName("last")
             .password("12345")
@@ -79,7 +79,7 @@ public class UserControllerTest {
     User dup_user =
         User.builder()
             .email("test@naver.com")
-            .userName("json")
+            .username("json")
             .password("12345")
             //        .activated(false)
             .build();
@@ -100,7 +100,7 @@ public class UserControllerTest {
     User user =
         User.builder()
             .email("test@naver.com")
-            .userName("jsom")
+            .username("jsom")
             .firstName("first")
             .lastName("last")
             .password("12345")

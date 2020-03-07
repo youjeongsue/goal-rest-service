@@ -7,7 +7,6 @@ import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.repository.UserRepository;
 import com.goal.restservice.util.PasswordEncoding;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -33,14 +32,14 @@ public class UserServiceImpl implements UserService {
                 .password(encodedPassword)
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
-                .userName(userDTO.getUserName())
+                .username(userDTO.getUsername())
                 .imageUrl(userDTO.getImageUrl())
                 .introduction(userDTO.getIntroduction())
                 .build());
 
     return UserDTO.builder()
         .email(user.getEmail())
-        .userName(user.getUserName())
+        .username(user.getUsername())
         .firstName(user.getFirstName())
         .lastName((user.getLastName()))
         .introduction(user.getIntroduction())
@@ -49,34 +48,34 @@ public class UserServiceImpl implements UserService {
   }
 
   /**
-   * @param email
-   * @param rawPassword
-   * @return
+   *
    */
   @Override
   public User signIn(String email, String rawPassword)
       throws EmailNotMatchedException, PasswordNotMatchedException {
 
     Optional<User> ou = userRepository.findOneByEmailIgnoreCase(email);
-
     if (ou.isPresent()) {
-      if (passwordEncoding.matches(rawPassword, ou.get().getPassword())) return ou.get();
-      else throw new PasswordNotMatchedException();
+      if (passwordEncoding.matches(rawPassword, ou.get().getPassword())) {
+        return ou.get();
+      } else {
+        throw new PasswordNotMatchedException();
+      }
     } else {
       throw new EmailNotMatchedException();
     }
   }
 
   @Override
-  public UserDTO getUserByUserName(String userName) {
-    Optional<User> optionalUser = userRepository.findOneByUserNameIgnoreCase(userName);
+  public UserDTO getUserByUsername(String username) {
+    Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase(username);
 
     return optionalUser
         .map(
             user ->
                 UserDTO.builder()
                     .id(null)
-                    .userName(user.getUserName())
+                    .username(user.getUsername())
                     .email(user.getEmail())
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService {
             user ->
                 UserDTO.builder()
                     .id(null)
-                    .userName(user.getUserName())
+                    .username(user.getUsername())
                     .email(user.getEmail())
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
@@ -119,7 +118,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean isUserNameAlreadyUsed(String userName) {
-    return userRepository.findOneByUserNameIgnoreCase(userName).isPresent();
+  public boolean isUsernameAlreadyUsed(String username) {
+    return userRepository.findOneByUsernameIgnoreCase(username).isPresent();
   }
 }

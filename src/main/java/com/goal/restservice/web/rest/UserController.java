@@ -1,7 +1,7 @@
 package com.goal.restservice.web.rest;
 
 import com.goal.restservice.common.error.EmailAlreadyUsedException;
-import com.goal.restservice.common.error.UserNameAlreadyUsedException;
+import com.goal.restservice.common.error.UsernameAlreadyUsedException;
 import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.service.JwtServiceImpl;
 import com.goal.restservice.service.UserServiceImpl;
@@ -34,17 +34,18 @@ public class UserController {
    * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
    */
   @PostMapping
-  private ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
+  private ResponseEntity<String> createUser(@RequestBody @Valid UserDTO userDTO) {
 
     if (userServiceImpl.isEmailAlreadyUsed(userDTO.getEmail())) {
       throw new EmailAlreadyUsedException();
 
-    } else if (userServiceImpl.isUserNameAlreadyUsed(userDTO.getUserName())) {
-      throw new UserNameAlreadyUsedException();
+    } else if (userServiceImpl.isUsernameAlreadyUsed(userDTO.getUsername())) {
+      throw new UsernameAlreadyUsedException();
     }
 
     UserDTO newUser = userServiceImpl.createUser(userDTO);
-    return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    // TODO: return email address ?
+    return new ResponseEntity<>("success", HttpStatus.CREATED);
   }
 
   /**
@@ -72,7 +73,7 @@ public class UserController {
    */
   @GetMapping("/profile")
   private ResponseEntity<UserDTO> readUserProfile(@RequestParam("username") String userName) {
-    UserDTO user = userServiceImpl.getUserByUserName(userName);
+    UserDTO user = userServiceImpl.getUserByUsername(userName);
 
     if (user == null) return new ResponseEntity<UserDTO>(HttpStatus.NO_CONTENT);
 

@@ -1,17 +1,25 @@
 package com.goal.restservice.domain;
 
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+//@ToString(exclude = "goals")
+@ToString
 @Getter
-@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"id", "name"}, callSuper = false)
 public class Category {
 
   @Id
@@ -22,6 +30,16 @@ public class Category {
   private String name;
 
   @OneToMany(mappedBy = "category")
-  @Builder.Default
   private List<Goal> goals = new ArrayList<Goal>();
+
+  public void addGoal(Goal goal) {
+    goal.setCategory(this);
+    this.goals.add(goal);
+  }
+
+  @Builder
+  public Category(String name) {
+    this.name = name;
+  }
+
 }

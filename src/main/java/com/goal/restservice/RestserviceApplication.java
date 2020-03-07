@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication(
     exclude = {SecurityAutoConfiguration.class}) // TODO : Spring Security - disable
 public class RestserviceApplication {
+
   public static void main(String[] args) {
     SpringApplication.run(RestserviceApplication.class, args);
   }

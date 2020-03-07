@@ -34,24 +34,24 @@ public class NoteControllerTest {
     @BeforeEach
     public void test_setting() throws Exception{
         //TODO: domain -> dto
-        User test_user = User.builder().email("test@naver.com").userName("jsom").firstName("first").lastName("last").password("12345").build();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(test_user)))
-                .andDo(MockMvcResultHandlers.print());
-//
-//        Category test_category = Category.builder().name("English").build();
-//        Goal test_goal = Goal.builder().title("TOEIC").desc("990").category(test_category).build();
-//
-//        Note note = new Note(test_user, test_goal,"test_contents", 1);
-//
-//        NoteDTO noteDTO = NoteDTO.builder().id(note.getId()).user(note.getUser()).goal(note.getGoal())
-//                .contents(note.getContents()).rating(note.getRating()).build();
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/api/notes")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(noteDTO)))
+        User test_user = User.builder().email("test@naver.com").username("jsom").firstName("first").lastName("last").password("12345").build();
+//        mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(test_user)))
 //                .andDo(MockMvcResultHandlers.print());
+
+        Category test_category = Category.builder().name("English").build();
+        Goal test_goal = Goal.builder().title("TOEIC").desc("990").category(test_category).build();
+
+        Note note = new Note(test_user, test_goal,"test_contents", 1);
+
+        NoteDTO noteDTO = NoteDTO.builder().id(note.getId()).user(note.getUser()).goal(note.getGoal())
+                .contents(note.getContents()).rating(note.getRating()).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/notes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(noteDTO)))
+                .andDo(MockMvcResultHandlers.print());
     }
     @Test
     public void createNote() throws Exception{

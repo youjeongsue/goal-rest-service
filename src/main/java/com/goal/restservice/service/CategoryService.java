@@ -1,14 +1,17 @@
 package com.goal.restservice.service;
 
-import com.goal.restservice.domain.Category;
-
+import com.goal.restservice.dto.CategoryDto;
+import com.goal.restservice.dto.GoalDto;
 import java.util.List;
 
 public interface CategoryService {
 
-  void save(Category category);
+  CategoryDto createCategory(CategoryDto categoryDto);
 
-  List<Category> findAll();
+  List<CategoryDto> findAll();
 
-  Category findByName(String name);
+  CategoryDto getCategoryByName(java.lang.String name);
+
+  List<GoalDto> getGoalsByCategory(java.lang.String category);
+//  Category findByName(String name);
 }

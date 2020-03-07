@@ -1,17 +1,19 @@
 package com.goal.restservice.repository;
 
 import com.goal.restservice.domain.Category;
+
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
-import java.util.Optional;
-
 @DataJpaTest
 class CategoryRepositoryTest {
 
-  @Autowired CategoryRepository categoryRepository;
+
+  @Autowired
+  CategoryRepository categoryRepository;
 
   @Test
   public void 카테고리_생성하기() {
