@@ -23,24 +23,32 @@ public class NoteControllerTest {
 
     @BeforeEach
     public void test_setting() throws Exception{
-        UserDTO userDTO = UserDTO.builder().email("test@naver.com").password("12345").username("jsom").firstName("first").lastName("last").build();
-
-        Category category = Category.builder().name("English").build();
         CategoryDto categoryDto = CategoryDto.builder().name("English").build();
-        Goal goal = Goal.builder().title("TOEIC").desc("990").category(category).build();
-        GoalDto goalDto = GoalDto.builder().goal(goal).build();
 
-        SubgoalDto subgoalDto = SubgoalDto.builder().title("subgoal").desc("my subgoal").goalTitle("TOEIC").build();
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/categories").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(categoryDto)))
+                .andDo(MockMvcResultHandlers.print());
 
-        Note note = Note.builder().build();
+        UserDTO userDTO = UserDTO.builder().username("name").email("email@a.com").firstName("first")
+                .lastName("last").imageUrl("i.com").introduction("hi").password("pass").build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)));
 
-        System.out.println(">>>>>>>>>> note id : " + note.getId());
-        //NoteDto noteDTO = NoteDto.builder()..build();
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/api/notes")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(noteDTO)))
-//                .andDo(MockMvcResultHandlers.print());
+        GoalDto goalDto = GoalDto.builder().title("TOEIC").desc("990")
+                .userId(1L).category("English").build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/goals")
+                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(goalDto)))
+                .andDo(MockMvcResultHandlers.print());
+
+        NoteDto noteDto = NoteDto.builder().build();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/notes")
+                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(noteDto)))
+                .andDo(MockMvcResultHandlers.print());
+
     }
     @Test
     public void createNote() throws Exception{
