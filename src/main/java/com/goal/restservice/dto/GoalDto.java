@@ -22,27 +22,16 @@ public class GoalDto {
 
   @NotBlank
   @Size(min = 1, max = 50)
-  private java.lang.String title;
+  private String title;
 
   @Size(min = 0, max = 100)
-  private java.lang.String desc;
+  private String desc;
 
-  private java.lang.String username;
+  private String username;
 
-  private java.lang.String category;
+  private String category;
 
   private LocalDate dueDate;
-
-//  @Builder
-//  public GoalDto(Long goalId, String title, String desc, Long userId, String category, LocalDate dueDate) {
-  public GoalDto(Goal goal, java.lang.String username) {
-    this.goalId = goal.getId();
-    this.title = goal.getTitle();
-    this.desc = goal.getDesc();
-    this.username = username;
-    this.category = goal.getCategory().getName();
-    this.dueDate = goal.getDueDate();
-  }
 
   @Builder
   public GoalDto(Goal goal) {
