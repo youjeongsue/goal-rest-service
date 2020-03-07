@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+public class GoalControllerTest{
   @Autowired
   private MockMvc mockMvc;
   @Autowired
@@ -23,40 +24,40 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
   @BeforeEach
   public void 목표를_생성한다() throws Exception {
-    CategoryDto categoryDto = CategoryDto.builder()
-        .name("English")
-        .build();
-
-    mockMvc.perform(
-        MockMvcRequestBuilders.post("/api/categories").contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(categoryDto)))
-        .andDo(MockMvcResultHandlers.print());
-
-    UserDTO userDTO = UserDTO.builder().username("name").email("email@a.com").firstName("first")
-        .lastName("last").imageUrl("i.com").introduction("hi").password("pass").build();
-
-    mockMvc.perform(
-        MockMvcRequestBuilders.post("/api/users").contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(userDTO)));
-
-    GoalDto goalDto = GoalDto.builder().title("TOEIC").desc("990")
-        .userId(1L).category("English").build();
-
-    mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(goalDto)))
-        .andDo(MockMvcResultHandlers.print());
-
-    GoalDto goalDto2 = GoalDto.builder().title("TOEFL").desc("990")
-        .userId(1L).category("English").build();
-
-    mockMvc
-        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(goalDto2)))
-        .andDo(MockMvcResultHandlers.print());
-    mockMvc
-        .perform(MockMvcRequestBuilders.get("/api/categories/English"))
-        .andDo(MockMvcResultHandlers.print());
+//    CategoryDto categoryDto = CategoryDto.builder()
+//        .name("English")
+//        .build();
+//
+//    mockMvc.perform(
+//        MockMvcRequestBuilders.post("/api/categories").contentType(MediaType.APPLICATION_JSON)
+//            .content(objectMapper.writeValueAsString(categoryDto)))
+//        .andDo(MockMvcResultHandlers.print());
+//
+//    UserDTO userDTO = UserDTO.builder().username("name").email("email@a.com").firstName("first")
+//        .lastName("last").imageUrl("i.com").introduction("hi").password("pass").build();
+//
+//    mockMvc.perform(
+//        MockMvcRequestBuilders.post("/api/users").contentType(MediaType.APPLICATION_JSON)
+//            .content(objectMapper.writeValueAsString(userDTO)));
+//
+//    GoalDto goalDto = GoalDto.builder().title("TOEIC").desc("990")
+//        .userId(1L).category("English").build();
+//
+//    mockMvc
+//        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
+//            .content(objectMapper.writeValueAsString(goalDto)))
+//        .andDo(MockMvcResultHandlers.print());
+//
+//    GoalDto goalDto2 = GoalDto.builder().title("TOEFL").desc("990")
+//        .userId(1L).category("English").build();
+//
+//    mockMvc
+//        .perform(MockMvcRequestBuilders.post("/api/goals").contentType(MediaType.APPLICATION_JSON)
+//            .content(objectMapper.writeValueAsString(goalDto2)))
+//        .andDo(MockMvcResultHandlers.print());
+//    mockMvc
+//        .perform(MockMvcRequestBuilders.get("/api/categories/English"))
+//        .andDo(MockMvcResultHandlers.print());
 
   }
 

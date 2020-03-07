@@ -27,7 +27,6 @@ public class User extends BaseTimeEntity {
   private String password;
 
   @NotNull
-
   private String username;
 
   @NotNull
@@ -42,6 +41,7 @@ public class User extends BaseTimeEntity {
 
   private String introduction;
 
+  //note
   @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Note> notes = new ArrayList<>();
 
@@ -50,8 +50,14 @@ public class User extends BaseTimeEntity {
     this.notes.add(note);
   }
 
+  //goal
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private List<Goal> goals;
+
+  public void addGoal(Goal goal) {
+    goal.setUser(this);
+    this.goals.add(goal);
+  }
 
   @Builder
   public User(String email, String password, String username, String firstName, String lastName,

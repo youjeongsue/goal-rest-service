@@ -1,7 +1,7 @@
 package com.goal.restservice.web.rest;
 
 import com.goal.restservice.domain.Goal;
-import com.goal.restservice.dto.NoteDTO;
+import com.goal.restservice.dto.NoteDto;
 import com.goal.restservice.service.NoteServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,43 +20,43 @@ public class NoteController {
     }
 
     @PostMapping
-    public ResponseEntity<NoteDTO> createNote(@RequestBody NoteDTO noteDTO){
-        NoteDTO newNoteDTO = noteServiceImpl.createNote(noteDTO);
+    public ResponseEntity<NoteDto> createNote(@RequestBody NoteDto noteDTO){
+        NoteDto newNoteDto = noteServiceImpl.createNote(noteDTO);
 
-        return newNoteDTO == null ? new ResponseEntity<NoteDTO>(HttpStatus.INTERNAL_SERVER_ERROR)
-                : new ResponseEntity<NoteDTO>(newNoteDTO, HttpStatus.CREATED);
+        return newNoteDto == null ? new ResponseEntity<NoteDto>(HttpStatus.INTERNAL_SERVER_ERROR)
+                : new ResponseEntity<NoteDto>(newNoteDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<NoteDTO>> getNoteByUserId(@PathVariable long userId){
-        List<NoteDTO> noteDTOList = noteServiceImpl.getNoteByUserId(userId);
+    public ResponseEntity<List<NoteDto>> getNoteByUserId(@PathVariable long userId){
+        List<NoteDto> noteDtoList = noteServiceImpl.getNoteByUserId(userId);
 
-        return noteDTOList == null ? new ResponseEntity<List<NoteDTO>>(HttpStatus.INTERNAL_SERVER_ERROR)
-                : new ResponseEntity<List<NoteDTO>>(noteDTOList, HttpStatus.OK);
+        return noteDtoList == null ? new ResponseEntity<List<NoteDto>>(HttpStatus.INTERNAL_SERVER_ERROR)
+                : new ResponseEntity<List<NoteDto>>(noteDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/{goal}")
-    public ResponseEntity<List<NoteDTO>> getNoteByUserId(@PathVariable long userId, @PathVariable Goal goal){
-        List<NoteDTO> noteDTOList = noteServiceImpl.getNoteByUserIdAndGoal(userId, goal);
+    public ResponseEntity<List<NoteDto>> getNoteByUserId(@PathVariable long userId, @PathVariable Goal goal){
+        List<NoteDto> noteDtoList = noteServiceImpl.getNoteByUserIdAndGoal(userId, goal);
 
-        return noteDTOList == null ? new ResponseEntity<List<NoteDTO>>(HttpStatus.INTERNAL_SERVER_ERROR)
-                : new ResponseEntity<List<NoteDTO>>(noteDTOList, HttpStatus.OK);
+        return noteDtoList == null ? new ResponseEntity<List<NoteDto>>(HttpStatus.INTERNAL_SERVER_ERROR)
+                : new ResponseEntity<List<NoteDto>>(noteDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{noteId}")
-    public ResponseEntity<NoteDTO> getNoteByNoteId(@PathVariable long noteId){
-        NoteDTO noteDTO = noteServiceImpl.getNoteByNoteId(noteId);
+    public ResponseEntity<NoteDto> getNoteByNoteId(@PathVariable long noteId){
+        NoteDto noteDTO = noteServiceImpl.getNoteByNoteId(noteId);
 
-        return noteDTO == null ? new ResponseEntity<NoteDTO>(HttpStatus.INTERNAL_SERVER_ERROR)
-                : new ResponseEntity<NoteDTO>(noteDTO, HttpStatus.OK);
+        return noteDTO == null ? new ResponseEntity<NoteDto>(HttpStatus.INTERNAL_SERVER_ERROR)
+                : new ResponseEntity<NoteDto>(noteDTO, HttpStatus.OK);
     }
 
     @PutMapping("/{noteId}")
-    public ResponseEntity<NoteDTO> updateNote(@PathVariable long noteId, @RequestBody NoteDTO noteDTO){
-        NoteDTO newNoteDTO = noteServiceImpl.updateNote(noteId, noteDTO);
+    public ResponseEntity<NoteDto> updateNote(@PathVariable long noteId, @RequestBody NoteDto noteDTO){
+        NoteDto newNoteDto = noteServiceImpl.updateNote(noteId, noteDTO);
 
-        return newNoteDTO == null ? new ResponseEntity<NoteDTO>(HttpStatus.INTERNAL_SERVER_ERROR)
-                : new ResponseEntity<NoteDTO>(newNoteDTO, HttpStatus.OK);
+        return newNoteDto == null ? new ResponseEntity<NoteDto>(HttpStatus.INTERNAL_SERVER_ERROR)
+                : new ResponseEntity<NoteDto>(newNoteDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{noteId}")

@@ -1,13 +1,10 @@
 package com.goal.restservice.domain;
 
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,10 +36,12 @@ public class Subgoal {
   @JoinColumn(name = "subgoal_id")
   private Goal goal;
 
-  // TODO: Add notes
+  @OneToMany(mappedBy = "subgoal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  private List<Note> notes = new ArrayList<>();
 
-  public void setGoal(Goal goal) {
-    this.goal = goal;
+  public void addNote(Note note){
+    note.setSubgoal(this);
+    this.notes.add(note);
   }
 
   @Builder
@@ -53,4 +52,7 @@ public class Subgoal {
     this.dueDate = dueDate;
   }
 
+  public void setGoal(Goal goal) {
+    this.goal = goal;
+  }
 }

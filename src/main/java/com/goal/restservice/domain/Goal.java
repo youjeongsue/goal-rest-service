@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import jdk.internal.loader.AbstractClassLoaderValue;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -41,6 +43,7 @@ public class Goal extends BaseTimeEntity {
 
   private String title;
 
+  //user
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;
@@ -50,17 +53,23 @@ public class Goal extends BaseTimeEntity {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate dueDate;
 
-  //note와 관계 설정
+  //note
   @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  private List<Note> notes = new ArrayList<>();
+  private List<Note> notes  = new ArrayList<>();
 
   public void addNote(Note note) {
     note.setGoal(this);
     this.notes.add(note);
   }
 
+  //subgoal
   @OneToMany(mappedBy = "goal")
-  private List<Subgoal> subgoals;
+  private List<Subgoal> subgoals  = new ArrayList<>();
+
+  public void addSubGoal(Subgoal subGoal) {
+    subGoal.setGoal(this);
+    this.subgoals.add(subGoal);
+  }
 
   @Builder
   public Goal(User user, Category category, String title, String desc, LocalDate dueDate) {
@@ -86,6 +95,12 @@ public class Goal extends BaseTimeEntity {
     }
   }
 
+  public void setUser(User user){
+    if(user != null){
+      this.user = user;
+    }
+  }
+
   public void setCategory(Category category) {
     if (this.category != null && this.category.getGoals() != null) {
       this.category.getGoals().remove(this);
@@ -96,11 +111,6 @@ public class Goal extends BaseTimeEntity {
     if (category != null) {
       category.getGoals().add(this);
     }
-  }
-
-  public void addSubGoal(Subgoal subGoal) {
-    subGoal.setGoal(this);
-    this.subgoals.add(subGoal);
   }
 
   public Long getId() {

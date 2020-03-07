@@ -29,7 +29,7 @@ public class NoteRepositoryTest {
     public void create_note(){
         User user = User.builder()
                 .email("demoni@naver.com")
-                .userName("hello")
+                .username("hello")
                 .password("12345")
                 .firstName("first")
                 .lastName("last")
