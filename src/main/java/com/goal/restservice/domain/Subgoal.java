@@ -33,7 +33,7 @@ public class Subgoal {
   private LocalDate dueDate;
 
   @ManyToOne
-  @JoinColumn(name = "goalIdOnSubgoal")
+  @JoinColumn(name = "temp_goal_id")
   private Goal goal;
 
   @OneToMany(mappedBy = "subgoal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
