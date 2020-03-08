@@ -59,22 +59,22 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteDto> getNoteByUserId(long id) {
-        List<Note> notes = noteRepository.findAllByIdOrderByCreatedDate(id);
+    public List<NoteDto> getNoteByUser(long userId) {
+        List<Note> notes = noteRepository.findAllByUserOrderByCreatedDate(userId);
 
         return noteListToNoteDTOList(notes);
     }
 
     @Override
-    public List<NoteDto> getNoteByUserIdAndGoal(long id, Goal goal){
-        List<Note> notes = noteRepository.findAllByIdAndGoalOrderByCreatedDate(id, goal);
+    public List<NoteDto> getNoteByUserAndGoal(long userId, long goalId){
+        List<Note> notes = noteRepository.findAllByUserAndGoalOrderByCreatedDate(userId, goalId);
 
         return noteListToNoteDTOList(notes);
     }
 
     @Override
-    public NoteDto getNoteByNoteId(long id) {
-        Optional<Note> optionalNote = noteRepository.findById(id);
+    public NoteDto getNote(long noteId) {
+        Optional<Note> optionalNote = noteRepository.findById(noteId);
 
         return optionalNote.map(note -> noteToNoteDTO(note)).orElse(null);
     }

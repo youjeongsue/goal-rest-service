@@ -8,11 +8,11 @@ import java.util.List;
 public interface NoteService {
     NoteDto createNote(NoteDto noteDTO);
 
-    List<NoteDto> getNoteByUserId(long id);
+    List<NoteDto> getNoteByUser(long id);
 
-    List<NoteDto> getNoteByUserIdAndGoal(long id, Goal goal);
+    List<NoteDto> getNoteByUserAndGoal(long userId, long goalId);
 
-    NoteDto getNoteByNoteId(long id);
+    NoteDto getNote(long noteId);
 
     NoteDto updateNote(long id, NoteDto noteDTO);
 

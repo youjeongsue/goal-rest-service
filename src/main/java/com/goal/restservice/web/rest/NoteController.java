@@ -28,16 +28,16 @@ public class NoteController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<NoteDto>> getNoteByUserId(@PathVariable long userId){
-        List<NoteDto> noteDtoList = noteServiceImpl.getNoteByUserId(userId);
+    public ResponseEntity<List<NoteDto>> getNoteByUser(@PathVariable long userId){
+        List<NoteDto> noteDtoList = noteServiceImpl.getNoteByUser(userId);
 
         return noteDtoList == null ? new ResponseEntity<List<NoteDto>>(HttpStatus.INTERNAL_SERVER_ERROR)
                 : new ResponseEntity<List<NoteDto>>(noteDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}/{goal}")
-    public ResponseEntity<List<NoteDto>> getNoteByUserId(@PathVariable long userId, @PathVariable Goal goal){
-        List<NoteDto> noteDtoList = noteServiceImpl.getNoteByUserIdAndGoal(userId, goal);
+    @GetMapping("/{userId}/{goalId}")
+    public ResponseEntity<List<NoteDto>> getNoteByUserAndGoal(@PathVariable long userId, @PathVariable Long goalId){
+        List<NoteDto> noteDtoList = noteServiceImpl.getNoteByUserAndGoal(userId, goalId);
 
         return noteDtoList == null ? new ResponseEntity<List<NoteDto>>(HttpStatus.INTERNAL_SERVER_ERROR)
                 : new ResponseEntity<List<NoteDto>>(noteDtoList, HttpStatus.OK);
@@ -45,7 +45,7 @@ public class NoteController {
 
     @GetMapping("/{noteId}")
     public ResponseEntity<NoteDto> getNoteByNoteId(@PathVariable long noteId){
-        NoteDto noteDTO = noteServiceImpl.getNoteByNoteId(noteId);
+        NoteDto noteDTO = noteServiceImpl.getNote(noteId);
 
         return noteDTO == null ? new ResponseEntity<NoteDto>(HttpStatus.INTERNAL_SERVER_ERROR)
                 : new ResponseEntity<NoteDto>(noteDTO, HttpStatus.OK);
