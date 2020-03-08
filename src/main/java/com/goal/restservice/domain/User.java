@@ -1,12 +1,12 @@
 package com.goal.restservice.domain;
 
 import java.util.List;
-import javax.validation.constraints.Null;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,8 +41,23 @@ public class User extends BaseTimeEntity {
 
   private String introduction;
 
+  //note
+  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  private List<Note> notes = new ArrayList<>();
+
+  public void addNote(Note note) {
+    note.setUser(this);
+    this.notes.add(note);
+  }
+
+  //goal
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private List<Goal> goals;
+
+  public void addGoal(Goal goal) {
+    goal.setUser(this);
+    this.goals.add(goal);
+  }
 
   @Builder
   public User(String email, String password, String username, String firstName, String lastName,

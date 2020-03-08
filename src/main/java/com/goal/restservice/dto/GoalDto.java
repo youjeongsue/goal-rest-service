@@ -16,6 +16,8 @@ import lombok.ToString;
 @ToString
 public class GoalDto {
 
+  private Long id;
+
   private Long goalId;
 
   @NotBlank
