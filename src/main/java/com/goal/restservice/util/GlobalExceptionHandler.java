@@ -1,15 +1,6 @@
 package com.goal.restservice.util;
 
-import com.goal.restservice.common.error.CategoryDoesNotExistException;
-import com.goal.restservice.common.error.EmailAlreadyUsedException;
-import com.goal.restservice.common.error.GoalCreateFailException;
-import com.goal.restservice.common.error.GoalDoesNotExistException;
-import com.goal.restservice.common.error.EmailNotMatchedException;
-import com.goal.restservice.common.error.PasswordNotMatchedException;
-import com.goal.restservice.common.error.SubgoalCreateFailException;
-import com.goal.restservice.common.error.SubgoalDoesNotExistException;
-import com.goal.restservice.common.error.TokenDoesNotExistException;
-import com.goal.restservice.common.error.UsernameAlreadyUsedException;
+import com.goal.restservice.common.error.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +65,15 @@ public class GlobalExceptionHandler {
         new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
   }
 
+  @ExceptionHandler(NoteCreateFailException.class)
+  protected ResponseEntity<ErrorResponse> handleNoteCreateFailException(
+          NoteCreateFailException e) {
+    log.info(e.getErrorCode().getMessage());
+
+    return new ResponseEntity<>(
+            new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
+
   @ExceptionHandler(EmailNotMatchedException.class)
   protected ResponseEntity<ErrorResponse> handleUsernameNotMatchedException(
       EmailNotMatchedException e) {
@@ -101,12 +101,21 @@ public class GlobalExceptionHandler {
         new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
   }
 
-  @ExceptionHandler(TokenDoesNotExistException.class)
-  protected ResponseEntity<ErrorResponse> handleTokenDoesNotExistException(
-      TokenDoesNotExistException e) {
+  @ExceptionHandler(NoteDoesNotExistException.class)
+  protected ResponseEntity<ErrorResponse> handleNoteDoesNotExistException(
+          NoteDoesNotExistException e) {
     log.info(e.getErrorCode().getMessage());
 
     return new ResponseEntity<>(
-        new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+            new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+  }
+
+  @ExceptionHandler(TokenDoesNotExistException.class)
+  protected ResponseEntity<ErrorResponse> handleTokenDoesNotExistException(
+          TokenDoesNotExistException e) {
+    log.info(e.getErrorCode().getMessage());
+
+    return new ResponseEntity<>(
+            new ErrorResponse((e.getErrorCode())), HttpStatus.valueOf(e.getErrorCode().getStatus()));
   }
 }

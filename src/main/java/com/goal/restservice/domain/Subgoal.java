@@ -25,7 +25,7 @@ public class Subgoal {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long goalId;
+  private Long oldgoalId;
 
   @Column(nullable = false, length = 100)
   private String title;
@@ -36,7 +36,7 @@ public class Subgoal {
 
   @JsonBackReference(value = "subgoal_goal")
   @ManyToOne
-  @JoinColumn(name = "temp_goal_id")
+  @JoinColumn(name = "goal_id")
   private Goal goal;
 
   @JsonManagedReference(value = "note_subgoal")

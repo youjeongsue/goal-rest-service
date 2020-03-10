@@ -21,9 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -53,7 +51,7 @@ public class NoteControllerTest {
     @BeforeEach
     public void test_setting() throws Exception{
 //        //create 2 subgoal
-//        SubgoalDto subgoalDto1 = SubgoalDto.builder().title("1-1").desc("subgoal1-1").goalTitle("Test1").build();
+//        SubgoalDto subgoalDto1 = SubgoalDto.builder().title("1-3").desc("subgoal1-1").goalTitle("Test1").build();
 //        subgoalService.createSubgoal(subgoalDto1);
 //
 //        SubgoalDto subgoalDto2 = SubgoalDto.builder().title("1-2").desc("subgoal1-2").goalTitle("Test1").build();
@@ -62,11 +60,10 @@ public class NoteControllerTest {
 
     @Test
     public void createNote() throws Exception{
-        Optional<User> optionalUser = userRepository.findById(1L);
-        User user = optionalUser.get();
+        User user = userRepository.findById(1L).get();
         Goal goal = goalRepository.findByTitle("Test1");
         List<Subgoal> subgoals = subgoalRepository.findAllByGoalOrderById(goal);
-        Subgoal subgoal = subgoals.get(0); //1-1
+        Subgoal subgoal = subgoals.get(0);
 
         NoteDto noteDto = NoteDto.builder().user(user).goal(goal).subgoal(subgoal).contents("오늘은 1-1을 잘 했다").rating(4).build();
         mockMvc.perform(
@@ -78,8 +75,20 @@ public class NoteControllerTest {
     }
 
     @Test
-    public void readNote() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/notes/"))
+    public void getNoteByUser() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/notes/me/" + 1L))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void getNoteByUserAndGoal() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/notes/" + 1L + "/" + 38L))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void deleteNote() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/notes/" + 1L))
                 .andDo(MockMvcResultHandlers.print());
     }
 

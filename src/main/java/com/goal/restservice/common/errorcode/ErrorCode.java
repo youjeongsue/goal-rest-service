@@ -19,6 +19,9 @@ public enum ErrorCode {
   SUBGOAL_DOES_NOT_EXIST(400, "M010", "subgoal does not exist"),
   // Category
   CATEGORY_DOES_NOT_EXIST(400, "M011", "category does not exist"),
+  // Note
+  NOTE_CREATE_FAIL(400, "N001", "Creating note failed"),
+  NOTE_DOES_NOT_EXIST(400, "N002", "Note does not exist"),
   ;
 
   private final String code;

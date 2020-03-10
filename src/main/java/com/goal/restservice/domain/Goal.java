@@ -61,7 +61,7 @@ public class Goal extends BaseTimeEntity {
   //note
   @JsonManagedReference(value = "note_goal")
   @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  private List<Note> notes  = new ArrayList<>();
+  private List<Note> notes  = new ArrayList<Note>();
 
   public void addNote(Note note) {
     note.setGoal(this);
@@ -71,7 +71,7 @@ public class Goal extends BaseTimeEntity {
   //subgoal
   @JsonManagedReference(value = "subgoal_goal")
   @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  private List<Subgoal> subgoals  = new ArrayList<>();
+  private List<Subgoal> subgoals  = new ArrayList<Subgoal>();
 
   public void addSubGoal(Subgoal subGoal) {
     subGoal.setGoal(this);
