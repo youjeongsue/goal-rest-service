@@ -1,31 +1,29 @@
 package com.goal.restservice.web.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goal.restservice.domain.Category;
-import com.goal.restservice.domain.Goal;
-import com.goal.restservice.domain.Subgoal;
-import com.goal.restservice.domain.User;
+import com.goal.restservice.domain.*;
 import com.goal.restservice.dto.CategoryDto;
+import com.goal.restservice.dto.NoteDto;
 import com.goal.restservice.dto.SubgoalDto;
 import com.goal.restservice.dto.UserDTO;
 import com.goal.restservice.repository.CategoryRepository;
 import com.goal.restservice.repository.GoalRepository;
 import com.goal.restservice.repository.SubgoalRepository;
 import com.goal.restservice.repository.UserRepository;
-import com.goal.restservice.service.CategoryService;
-import com.goal.restservice.service.CategoryServiceImpl;
-import com.goal.restservice.service.SubgoalServiceImpl;
-import com.goal.restservice.service.UserServiceImpl;
+import com.goal.restservice.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -49,6 +47,8 @@ public class NoteControllerTest {
     UserServiceImpl userService;
     @Autowired
     SubgoalServiceImpl subgoalService;
+    @Autowired
+    NoteServiceImpl noteService;
 
     @BeforeEach
     public void test_setting() throws Exception{
@@ -62,13 +62,19 @@ public class NoteControllerTest {
 
     @Test
     public void createNote() throws Exception{
-        Category category = categoryRepository.findByName("English");
-        User user = userRepository.getOne(1L);
+        Optional<User> optionalUser = userRepository.findById(1L);
+        User user = optionalUser.get();
         Goal goal = goalRepository.findByTitle("Test1");
         List<Subgoal> subgoals = subgoalRepository.findAllByGoalOrderById(goal);
-        for(Subgoal subgoal : subgoals){
-            System.out.println(subgoal.getTitle());
-        }
+        Subgoal subgoal = subgoals.get(0); //1-1
+
+        NoteDto noteDto = NoteDto.builder().user(user).goal(goal).subgoal(subgoal).contents("오늘은 1-1을 잘 했다").rating(4).build();
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/notes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(noteDto)))
+                .andDo(MockMvcResultHandlers.print());
+
     }
 
     @Test

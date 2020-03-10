@@ -1,5 +1,6 @@
 package com.goal.restservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -20,16 +21,19 @@ public class Note extends BaseTimeEntity{
     private Long id;
 
     @ManyToOne
+    @JsonBackReference(value = "note_user")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JsonBackReference(value = "note_goal")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "goal_id")
     private Goal goal;
 
     @ManyToOne
+    @JsonBackReference(value = "note_subgoal")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "subgoal_id")
     private Subgoal subgoal;

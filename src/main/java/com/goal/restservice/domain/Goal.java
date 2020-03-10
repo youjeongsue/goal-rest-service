@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jdk.internal.loader.AbstractClassLoaderValue;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,6 +39,8 @@ public class Goal extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  //category
+  @JsonBackReference(value = "goal_category")
   @ManyToOne
   @JoinColumn(name = "category_id")
   private Category category;
@@ -44,7 +48,8 @@ public class Goal extends BaseTimeEntity {
   private String title;
 
   //user
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @JsonBackReference(value = "goal_user")
+  @ManyToOne(optional = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;
 
@@ -54,6 +59,7 @@ public class Goal extends BaseTimeEntity {
   private LocalDate dueDate;
 
   //note
+  @JsonManagedReference(value = "note_goal")
   @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Note> notes  = new ArrayList<>();
 
@@ -63,7 +69,8 @@ public class Goal extends BaseTimeEntity {
   }
 
   //subgoal
-  @OneToMany(mappedBy = "goal")
+  @JsonManagedReference(value = "subgoal_goal")
+  @OneToMany(mappedBy = "goal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Subgoal> subgoals  = new ArrayList<>();
 
   public void addSubGoal(Subgoal subGoal) {

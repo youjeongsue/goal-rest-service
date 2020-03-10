@@ -1,6 +1,8 @@
 package com.goal.restservice.domain;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -42,8 +44,9 @@ public class User extends BaseTimeEntity {
   private String introduction;
 
   //note
+  @JsonManagedReference(value = "note_user")
   @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  private List<Note> notes = new ArrayList<>();
+  private List<Note> notes = new ArrayList<Note>();
 
   public void addNote(Note note) {
     note.setUser(this);
@@ -51,8 +54,9 @@ public class User extends BaseTimeEntity {
   }
 
   //goal
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-  private List<Goal> goals;
+  @JsonManagedReference(value = "goal_user")
+  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Goal> goals = new ArrayList<Goal>();
 
   public void addGoal(Goal goal) {
     goal.setUser(this);

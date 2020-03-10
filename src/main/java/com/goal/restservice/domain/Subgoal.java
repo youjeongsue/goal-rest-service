@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,12 +34,14 @@ public class Subgoal {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate dueDate;
 
+  @JsonBackReference(value = "subgoal_goal")
   @ManyToOne
   @JoinColumn(name = "temp_goal_id")
   private Goal goal;
 
+  @JsonManagedReference(value = "note_subgoal")
   @OneToMany(mappedBy = "subgoal", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  private List<Note> notes = new ArrayList<>();
+  private List<Note> notes = new ArrayList<Note>();
 
   public void addNote(Note note){
     note.setSubgoal(this);
