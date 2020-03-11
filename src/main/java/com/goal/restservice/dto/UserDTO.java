@@ -29,6 +29,8 @@ public class UserDTO {
   @Builder(builderClassName = "ByFollowerBuilder", builderMethodName = "ByFollowerBuilder")
   public UserDTO(User user) {
     this.email = user.getEmail();
+    //TODO
+    this.password = user.getPassword();
     this.username = user.getUsername();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();

@@ -2,12 +2,9 @@ package com.goal.restservice.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,7 +26,8 @@ public class Category {
   @Column(nullable = false, length = 100)
   private String name;
 
-  @OneToMany(mappedBy = "category")
+  @JsonManagedReference(value = "goal_category")
+  @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Goal> goals = new ArrayList<Goal>();
 
   public void addGoal(Goal goal) {

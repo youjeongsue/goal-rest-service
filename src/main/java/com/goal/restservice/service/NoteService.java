@@ -1,6 +1,7 @@
 package com.goal.restservice.service;
 
 import com.goal.restservice.domain.Goal;
+import com.goal.restservice.domain.User;
 import com.goal.restservice.dto.NoteDto;
 
 import java.util.List;
@@ -8,11 +9,11 @@ import java.util.List;
 public interface NoteService {
     NoteDto createNote(NoteDto noteDTO);
 
-    List<NoteDto> getNoteByUserId(long id);
+    List<NoteDto> getNoteByUser(User user);
 
-    List<NoteDto> getNoteByUserIdAndGoal(long id, Goal goal);
+    List<NoteDto> getNoteByUserAndGoal(User user, Goal goal);
 
-    NoteDto getNoteByNoteId(long id);
+    NoteDto getNote(long noteId);
 
     NoteDto updateNote(long id, NoteDto noteDTO);
 
